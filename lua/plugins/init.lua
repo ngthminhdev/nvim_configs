@@ -508,13 +508,31 @@ return {
   },
 
   {
+    "stevearc/aerial.nvim",
+    opts = {},
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("aerial").setup {
+        layout = {
+          min_width = 35,
+          default_direction = "right", -- Hiển thị bên phải
+          placement = "window",
+        },
+      }
+    end,
+  },
+
+  {
     "yetone/avante.nvim",
     event = "VeryLazy",
     version = false, -- Never set this value to "*"! Never!
     opts = {
 
       provider = "qianwen",
-      auto_suggestions_provider = 'qianwen',
+      auto_suggestions_provider = "qianwen",
       vendors = {
         qianwen = {
           __inherited_from = "openai",
@@ -526,6 +544,18 @@ return {
           -- ["local"] = true,
           api_key_name = "",
           --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+        },
+      },
+      behaviour = {
+        auto_suggestions = false,
+      },
+
+      mappings = {
+        suggestion = {
+          accept = "<C-e>",
+          next = "<C-]>",
+          prev = "<C-[>",
+          dismiss = "<C-.>",
         },
       },
     },

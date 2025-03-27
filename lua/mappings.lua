@@ -192,23 +192,23 @@ local function watchExpression(expression)
   dapui.elements.watches.add(expression)
 end
 
-vim.api.nvim_create_user_command("DapiUIAddToWatch", function(opts)
-  watchExpression(opts.args)
-end, { nargs = 1 })
-
-map("n", "<space>w", ":DapiUIAddToWatch ", { noremap = true })
+-- vim.api.nvim_create_user_command("DapiUIAddToWatch", function(opts)
+--   watchExpression(opts.args)
+-- end, { nargs = 1 })
+--
+-- map("n", "<space>w", ":DapiUIAddToWatch ", { noremap = true })
 
 local function removeExpression(expression)
   dapui.elements.watches.remove(expression)
 end
 
-vim.api.nvim_create_user_command("DapiUIRemoveWatch", function(opts)
-  removeExpression(opts.args)
-end, { nargs = 1 })
-
-map("n", "<space>r", ":DapiUIRemoveWatch ", { noremap = true })
-map("n", "<space>fr", ":FlutterRun<CR>", { noremap = true, silent = true })
-map("n", "<space>cl", ":FlutterLogClear<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_create_user_command("DapiUIRemoveWatch", function(opts)
+--   removeExpression(opts.args)
+-- end, { nargs = 1 })
+--
+-- map("n", "<space>r", ":DapiUIRemoveWatch ", { noremap = true })
+-- map("n", "<space>fr", ":FlutterRun<CR>", { noremap = true, silent = true })
+-- map("n", "<space>cl", ":FlutterLogClear<CR>", { noremap = true, silent = true })
 -- Mở tab mới
 -- map('n', '<leader>tn', ':tabnew<CR>', { noremap = true, silent = true })
 local opts = { noremap = true, silent = true }
@@ -232,3 +232,5 @@ end)
 
 map("n", "<leader>gb", "<Cmd>Gitsigns blame<CR>", opts)
 map("n", "<leader>gl", "<Cmd>Gitsigns blame_line<CR>", opts)
+
+map("n", "<leader>o", "<cmd>AerialToggle<cr>", { desc = "Aerial Toggle" })

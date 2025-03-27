@@ -65,6 +65,17 @@ local function configure_hop()
   vim.keymap.set('n', '<leader>s', function()
     hop.hint_char1({ current_line_only = false })
   end, { silent = true, noremap = true, desc = "Hop to character" })
+
+
+  vim.keymap.set('n', '<leader>2s', function()
+    hop.hint_char2({ current_line_only = false })
+  end, { silent = true, noremap = true, desc = "Hop to 2 characters" })
+
+
+  vim.keymap.set('n', '<leader>ws', function()
+    hop.hint_words({ current_line_only = false })
+  end, { silent = true, noremap = true, desc = "Hop to word" })
+
 end
 
 if vim.g.vscode then
@@ -219,4 +230,4 @@ if vim.lsp.inlay_hint then
 end
 
 vim.lsp.set_log_level('debug')
-
+require("telescope").load_extension("aerial")
