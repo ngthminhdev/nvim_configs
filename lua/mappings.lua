@@ -79,7 +79,7 @@ map(
 )
 
 -- terminal
-map("t", "<C-p>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+map("t", "<leader>p", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
 -- new terminals
 --[[ map("n", "<F10>", function()
@@ -233,4 +233,4 @@ end)
 map("n", "<leader>gb", "<Cmd>Gitsigns blame<CR>", opts)
 map("n", "<leader>gl", "<Cmd>Gitsigns blame_line<CR>", opts)
 
-map("n", "<leader>o", "<cmd>AerialToggle<cr>", { desc = "Aerial Toggle" })
+map("n", "<C-p>", "<cmd>AerialToggle<cr>", { desc = "Aerial Toggle" })
