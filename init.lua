@@ -25,12 +25,13 @@ vim.g.python3_host_prog = vim.fn.getcwd() .. '/.venv/bin/python'
 -- Bật tô màu cú pháp trong init.lua
 vim.cmd('syntax enable')
 vim.cmd('syntax on')
-vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='DapBreakpoint', numhl=''})
-vim.fn.sign_define('DapStopped', { text='', texthl='DapStopped', linehl='DapStopped', numhl= 'DapStopped' })
 
-vim.cmd [[
-  highlight DapStopped guibg=#3c3836
-]]
+-- vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='DapBreakpoint', numhl=''})
+-- vim.fn.sign_define('DapStopped', { text='', texthl='DapStopped', linehl='DapStopped', numhl= 'DapStopped' })
+--
+-- vim.cmd [[
+--   highlight DapStopped guibg=#3c3836
+-- ]]
 
 vim.g.flutter_tools_hot_reload_on_save = 1
 
@@ -103,113 +104,113 @@ require("lazy").setup({
 
 require "nvchad.autocmds"
 
-local dap = require('dap')
-local dapui = require('dapui')
-
-require("dapui").setup({
-  layouts = {
-      {
-        elements = {
-          -- { id = 'repl', size = 0.01 },
-          { id = 'scopes', size = 0.35 },
-          { id = 'watches', size = 0.35 },
-          { id = 'breakpoints', size = 0.3 },
-        },
-        size = 40,
-        position = 'left',
-      },
-      {
-        elements = { 'repl' },
-        -- elements = { },
-        size = 0.2,
-        position = 'bottom',
-      },
-    },
-  controls = {
-    enabled = true,
-    element = "repl",
-  },
-  floating = {
-    max_height = 15, -- These can be integers or a float between 0 and 1.
-    max_width = 80, -- Floats will be treated as percentage of your screen.
-    border = "single", -- Border style. Can be "single", "double" or "rounded"
-    mappings = {
-      close = { "q", "<Esc>" },
-      focus = { "<leader>df" },
-    },
-  },
-})
-vim.api.nvim_set_keymap('n', '<leader>df', '<cmd>lua require("dapui").float_element()<CR>', { noremap = true, silent = true })
-
-require('nvim-dap-repl-highlights').setup_highlights('dart')
-
-dap.listeners.after.event_initialized["dapui_config"] = function()
-  dapui.open({})
-end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-  dapui.close({})
-end
-dap.listeners.before.event_exited["dapui_config"] = function()
-  dapui.close({})
-end
-
-dap.defaults.dart.exception_breakpoints = { "uncaught" }
-
-dap.listeners.after.event_breakpoint['dart-debug'] = function(session, body)
-    -- Tự động cập nhật ID breakpoint
-    if body.reason == 'changed' and body.breakpoint.id then
-        for _, bp in pairs(session.breakpoints) do
-            if bp.line == body.breakpoint.line then
-                bp.id = body.breakpoint.id
-            end
-        end
-    end
-end
-
-require("dap-vscode-js").setup({
-  debugger_path = "/home/ngthminhdev/Services/vscode-js-debug", -- Path to vscode-js-debug installation.
-  adapters = { 'chrome', 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost', 'node', 'chrome' }
-})
-
-local js_based_languages = { "typescript", "javascript", "typescriptreact" }
-
-for _, language in ipairs(js_based_languages) do
-  require("dap").configurations[language] = {
-    {
-      type = 'pwa-node',
-      request = 'launch',
-      name = 'KingFood Backend Service Debug',
-      program = '${workspaceFolder}/node_modules/.bin/nodemon',
-      args = {'--inspect', '--config', 'nodemon.json', 'index.js'},
-      cwd = '${workspaceFolder}',
-      runtimeExecutable = 'node',
-      runtimeArgs = {'--nolazy'}
-    },
-    {
-      type = "pwa-node",
-      request = "launch",
-      name = "Launch file",
-      program = "${file}",
-      cwd = "${workspaceFolder}",
-    },
-    {
-      type = "pwa-node",
-      request = "attach",
-      name = "Attach",
-      processId = require 'dap.utils'.pick_process,
-      cwd = "${workspaceFolder}",
-    },
-    {
-      type = "pwa-chrome",
-      request = "launch",
-      name = "Start Chrome with \"localhost\"",
-      url = "http://localhost:3000",
-      webRoot = "${workspaceFolder}",
-      userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir"
-    }
-  }
-end
-
+-- local dap = require('dap')
+-- local dapui = require('dapui')
+--
+-- require("dapui").setup({
+--   layouts = {
+--       {
+--         elements = {
+--           -- { id = 'repl', size = 0.01 },
+--           { id = 'scopes', size = 0.35 },
+--           { id = 'watches', size = 0.35 },
+--           { id = 'breakpoints', size = 0.3 },
+--         },
+--         size = 40,
+--         position = 'left',
+--       },
+--       {
+--         elements = { 'repl' },
+--         -- elements = { },
+--         size = 0.2,
+--         position = 'bottom',
+--       },
+--     },
+--   controls = {
+--     enabled = true,
+--     element = "repl",
+--   },
+--   floating = {
+--     max_height = 15, -- These can be integers or a float between 0 and 1.
+--     max_width = 80, -- Floats will be treated as percentage of your screen.
+--     border = "single", -- Border style. Can be "single", "double" or "rounded"
+--     mappings = {
+--       close = { "q", "<Esc>" },
+--       focus = { "<leader>df" },
+--     },
+--   },
+-- })
+-- vim.api.nvim_set_keymap('n', '<leader>df', '<cmd>lua require("dapui").float_element()<CR>', { noremap = true, silent = true })
+--
+-- require('nvim-dap-repl-highlights').setup_highlights('dart')
+--
+-- dap.listeners.after.event_initialized["dapui_config"] = function()
+--   dapui.open({})
+-- end
+-- dap.listeners.before.event_terminated["dapui_config"] = function()
+--   dapui.close({})
+-- end
+-- dap.listeners.before.event_exited["dapui_config"] = function()
+--   dapui.close({})
+-- end
+--
+-- dap.defaults.dart.exception_breakpoints = { "uncaught" }
+--
+-- dap.listeners.after.event_breakpoint['dart-debug'] = function(session, body)
+--     -- Tự động cập nhật ID breakpoint
+--     if body.reason == 'changed' and body.breakpoint.id then
+--         for _, bp in pairs(session.breakpoints) do
+--             if bp.line == body.breakpoint.line then
+--                 bp.id = body.breakpoint.id
+--             end
+--         end
+--     end
+-- end
+--
+-- require("dap-vscode-js").setup({
+--   debugger_path = "/home/ngthminhdev/Services/vscode-js-debug", -- Path to vscode-js-debug installation.
+--   adapters = { 'chrome', 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost', 'node', 'chrome' }
+-- })
+--
+-- local js_based_languages = { "typescript", "javascript", "typescriptreact" }
+--
+-- for _, language in ipairs(js_based_languages) do
+--   require("dap").configurations[language] = {
+--     {
+--       type = 'pwa-node',
+--       request = 'launch',
+--       name = 'KingFood Backend Service Debug',
+--       program = '${workspaceFolder}/node_modules/.bin/nodemon',
+--       args = {'--inspect', '--config', 'nodemon.json', 'index.js'},
+--       cwd = '${workspaceFolder}',
+--       runtimeExecutable = 'node',
+--       runtimeArgs = {'--nolazy'}
+--     },
+--     {
+--       type = "pwa-node",
+--       request = "launch",
+--       name = "Launch file",
+--       program = "${file}",
+--       cwd = "${workspaceFolder}",
+--     },
+--     {
+--       type = "pwa-node",
+--       request = "attach",
+--       name = "Attach",
+--       processId = require 'dap.utils'.pick_process,
+--       cwd = "${workspaceFolder}",
+--     },
+--     {
+--       type = "pwa-chrome",
+--       request = "launch",
+--       name = "Start Chrome with \"localhost\"",
+--       url = "http://localhost:3000",
+--       webRoot = "${workspaceFolder}",
+--       userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir"
+--     }
+--   }
+-- end
+--
 end
 
 -- load theme
