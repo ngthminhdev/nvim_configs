@@ -93,8 +93,10 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         html = { "prettier" },
-        javascript = { "prettier" },
-        typescript = { "prettier" },
+        javascript = { "eslint_d", "prettierd", "prettier" },
+        typescript = { "eslint_d", "prettierd", "prettier" },
+        python = { "isort", "black" },
+        go = { "gofmt", "goimports" },
         yaml = { "prettier" },
         cpp = { "clang-format" },
       },
@@ -284,6 +286,7 @@ return {
   --   "mxsdev/nvim-dap-vscode-js",
   --   requires = { "mfussenegger/nvim-dap" },
   -- },
+  --
   -- {
   --   "rcarriga/nvim-dap-ui",
   --   lazy = false,
@@ -291,11 +294,14 @@ return {
   --     require("dapui").setup()
   --   end,
   -- },
+  --
   -- {
   --   "akinsho/flutter-tools.nvim",
   --   lazy = false,
+  --   version = "8edcdabfe982c77482ebde2ba3f46f2adc677e64",
   --   dependencies = {
   --     "nvim-lua/plenary.nvim",
+  --     "mfussenegger/nvim-dap",
   --     "stevearc/dressing.nvim", -- optional for vim.ui.select
   --   },
   --   config = function()
@@ -303,28 +309,7 @@ return {
   --       debugger = {
   --         enabled = true,
   --         run_via_dap = true,
-  --         register_configurations = function(paths)
-  --           require("dap").adapters.dart = {
-  --             type = "executable",
-  --             command = "/home/ngthminhdev/fvm/versions/2.8.1/bin/dart",
-  --             -- command = '${workspaceFolder}/.fvm/flutter_sdk',
-  --             args = { "debug_adapter" },
-  --             options = {
-  --               detached = false,
-  --             },
-  --           }
-  --
-  --           -- Flutter
-  --           require("dap").adapters.flutter = {
-  --             type = "executable",
-  --             command = "/home/ngthminhdev/fvm/versions/2.8.1/bin/flutter",
-  --             -- command = "/home/ngthminhdev/fvm/versions/3.19.0/bin/flutter",
-  --             args = { "debug_adapter" },
-  --             options = {
-  --               detached = false,
-  --             },
-  --           }
-  --
+  --         register_configurations = function(_)
   --           require("dap").configurations.dart = {
   --             -- KPOS
   --             {
@@ -422,29 +407,62 @@ return {
   --               cwd = "${workspaceFolder}",
   --               platform = "android",
   --             },
-  --             {
-  --               type = "flutter",
-  --               request = "launch",
-  --               name = "Launch Flutter",
-  --               dartSdkPath = "${workspaceFolder}/.fvm/flutter_sdk/bin/cache/dart-sdk",
-  --               flutterSdkPath = "${workspaceFolder}/.fvm/flutter_sdk",
-  --               program = "${workspaceFolder}/lib/main.dart",
-  --               cwd = "${workspaceFolder}",
-  --               platform = "android",
+  --             -- {
+  --             --   type = "flutter",
+  --             --   request = "launch",
+  --             --   name = "Launch Flutter",
+  --             --   dartSdkPath = "${workspaceFolder}/.fvm/flutter_sdk/bin/cache/dart-sdk",
+  --             --   flutterSdkPath = "${workspaceFolder}/.fvm/flutter_sdk",
+  --             --   program = "${workspaceFolder}/lib/main.dart",
+  --             --   cwd = "${workspaceFolder}",
+  --             --   platform = "android",
+  --             -- },
+  --           }
+  --
+  --           require("dap").adapters.dart = {
+  --             type = "executable",
+  --             command = "/home/ngthminhdev/fvm/versions/2.8.1/bin/dart",
+  --             -- command = '${workspaceFolder}/.fvm/flutter_sdk',
+  --             args = { "debug_adapter" },
+  --             options = {
+  --               detached = false,
+  --             },
+  --           }
+  --
+  --           require("dap").adapters.flutter = {
+  --             type = "executable",
+  --             command = "/home/ngthminhdev/fvm/versions/2.8.1/bin/flutter",
+  --             -- command = "/home/ngthminhdev/fvm/versions/3.19.0/bin/flutter",
+  --             args = { "debug_adapter" },
+  --             options = {
+  --               detached = false,
   --             },
   --           }
   --         end,
   --       },
   --       fvm = true,
   --       -- flutter_path = "/home/ngthminhdev/fvm/versions/2.8.1/bin/flutter",
+  --       lsp = {
+  --         settings = {
+  --           dart = {
+  --             completeFunctionCalls = true,
+  --           },
+  --         },
+  --         color = { enabled = true },
+  --       },
+  --       decorations = {
+  --         statusline = { device = true, app_version = true },
+  --       },
   --       dev_log = {
   --         enabled = true,
   --         notify_errors = false,
   --         open_cmd = "tabedit",
+  --         exception_breakpoints = {},
   --       },
   --     }
   --   end,
   -- },
+  --
   {
     "nvim-neotest/nvim-nio",
     -- lazy = false,
@@ -485,7 +503,7 @@ return {
         },
         per_filetype = {
           ["html"] = {
-            enable_close = false,
+            enable_close = true,
           },
         },
       }
@@ -530,9 +548,8 @@ return {
     event = "VeryLazy",
     version = false, -- Never set this value to "*"! Never!
     opts = {
-
-      provider = "qianwen",
-      auto_suggestions_provider = "qianwen",
+      provider = "gemini",
+      -- auto_suggestions_provider = "qianwen",
       vendors = {
         qianwen = {
           __inherited_from = "openai",
@@ -544,6 +561,13 @@ return {
           -- ["local"] = true,
           api_key_name = "",
           --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+        },
+
+        gemini = {
+          model = "gemini-2.0-flash", -- your desired model (or use gpt-4o, etc.)
+          timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+          GOOGLE_SEARCH_API_KEY = "AIzaSyAFY48cNW71-kW8O1XZmwny2haD4PBM7oI",
+          max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
         },
       },
       behaviour = {
@@ -582,10 +606,28 @@ return {
     },
   },
   {
+    "ibhagwan/fzf-lua",
+    lazy = false, -- NOTE: NO NEED to Lazy load
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {},
+    configs = function()
+      require("fzf-lua").setup {
+        diagnostics = {
+          previewer = false, -- 🔥 tắt preview để show full logs
+        },
+        winopts = {
+          preview = {
+            hidden = true, -- hoàn toàn ẩn preview window
+          },
+        },
+      }
+    end,
+  },
+
+  {
     "Isrothy/neominimap.nvim",
     version = "v3.x.x",
     lazy = false, -- NOTE: NO NEED to Lazy load
-    -- Optional. You can alse set your own keybindings
     keys = {
       -- Global Minimap Controls
       { "<leader>nm", "<cmd>Neominimap toggle<cr>", desc = "Toggle global minimap" },
@@ -618,14 +660,108 @@ return {
     },
     init = function()
       -- The following options are recommended when layout == "float"
-      vim.opt.wrap = false
+      vim.opt.wrap = true
       vim.opt.sidescrolloff = 36 -- Set a large value
 
       --- Put your configuration here
       ---@type Neominimap.UserConfig
       vim.g.neominimap = {
-        auto_enable = true,
+        auto_enable = false,
       }
     end,
+  },
+  {
+    "sontungexpt/stcursorword",
+    event = "VeryLazy",
+    config = true,
+  },
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy", -- Or `LspAttach`
+    priority = 1000, -- needs to be loaded in first
+    config = function()
+      require("tiny-inline-diagnostic").setup {
+        options = {
+          multilines = {
+            enabled = true,
+            always_show = true,
+          },
+          break_line = {
+            enabled = true,
+            after = 80,
+          },
+        },
+      }
+      vim.diagnostic.config { virtual_text = false } -- Only if needed in your configuration, if you already have native LSP diagnostics
+    end,
+  },
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    event = "VeryLazy",
+    config = function()
+      local rainbow_delimiters = require "rainbow-delimiters"
+
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [""] = rainbow_delimiters.strategy["global"],
+          vim = rainbow_delimiters.strategy["local"],
+        },
+        query = {
+          [""] = "rainbow-delimiters",
+          lua = "rainbow-blocks",
+        },
+        priority = {
+          [""] = 110,
+        },
+        highlight = {
+          "RainbowDelimiterRed",
+          "RainbowDelimiterYellow",
+          "RainbowDelimiterBlue",
+          "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen",
+          "RainbowDelimiterViolet",
+          "RainbowDelimiterCyan",
+        },
+        whitelist = { "javascript", "js", "typescript" },
+      }
+    end,
+  },
+  {
+    "aurum77/live-server.nvim",
+    run = function()
+      require("live_server.util").install()
+      local status_ok, live_server = pcall(require, "live_server")
+      if not status_ok then
+        return
+      end
+
+      live_server.setup {
+        port = 8080,
+        browser_command = "", -- Empty string starts up with default browser
+        quiet = false,
+        no_css_inject = false, -- Disables css injection if true, might be useful when testing out tailwindcss
+        install_path = vim.fn.stdpath "config" .. "/live-server/",
+      }
+    end,
+    cmd = { "LiveServer", "LiveServerStart", "LiveServerStop" },
+  },
+  {
+    "folke/zen-mode.nvim",
+    lazy = false,
+    opts = {
+      window = {
+        width = 150,
+      },
+      -- plugin = {
+      --   kitty = {
+      --     enabled = true,
+      --   },
+      -- },
+    },
+  },
+  {
+    "barrett-ruth/import-cost.nvim",
+    build = "sh install.sh yarn",
+    config = true,
   },
 }

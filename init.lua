@@ -20,6 +20,7 @@ vim.opt.completeopt = {'menuone', 'noselect'}
 vim.highlight.priorities.semantic_tokens = 95
 
 vim.o.swapfile = false
+vim.opt.wrap = true
 
 vim.g.python3_host_prog = vim.fn.getcwd() .. '/.venv/bin/python'
 -- Bật tô màu cú pháp trong init.lua

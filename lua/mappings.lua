@@ -20,7 +20,7 @@ map("n", "<leader>k", "<C-w>k", { desc = "switch window up" })
 
 -- map("n", "<leader>n", "<cmd>set nu!<CR>", { desc= "toggle line number" })
 -- map("n", "<space>tn", ":tabnew<CR>:terminal<CR>", { noremap = true, silent = true })
-map("n", "<space>tn", ":tabnext<CR>", { desc = "Tab next" })
+map("n", "<A-Tab>", ":tabnext<CR>", { desc = "Tab next" })
 map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
 map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
 
@@ -29,20 +29,20 @@ map("n", "<leader>fm", function()
 end, { desc = "format files" })
 
 -- global lsp mappings
-map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "lsp diagnostic loclist" })
+-- map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "lsp diagnostic loclist" })
 
 -- tabufline
 map("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
 
-map("n", "<A-.>", function()
+map("n", "<A-l>", function()
   require("nvchad.tabufline").next()
 end, { desc = "buffer goto next" })
 
-map("n", "<A-,>", function()
+map("n", "<A-h>", function()
   require("nvchad.tabufline").prev()
 end, { desc = "buffer goto prev" })
 
-map("n", "<C-c>", function()
+map("n", "<leader>x", function()
   require("nvchad.tabufline").close_buffer()
 end, { desc = "buffer close" })
 
@@ -64,6 +64,8 @@ map("n", "<leader>fc", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = 
 map("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
 map("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" })
+map("n", "<leader>ds", "<cmd>FzfLua diagnostics_document<CR>", { desc = "diagnostics_document" })
+map("n", "<leader>gr", "<cmd>FzfLua lsp_definitions<CR>", { desc = "lsp_definitions" })
 -- map("n", "<leader>th", "<cmd>Telescope themes<CR>", { desc = "telescope nvchad themes" })
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
 
@@ -78,8 +80,17 @@ map(
   { desc = "telescope find all files" }
 )
 
+map("n", "<leader>zm", "<cmd>ZenMode<CR>", { desc = "Toggle ZenMode"})
+
 -- terminal
-map("t", "<leader>p", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+map("t", "<Esc>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+
+map("n", "<F12>", function()
+  vim.cmd("sp")       -- mở tab mới
+  vim.cmd("resize 15")       -- mở tab mới
+  vim.cmd("terminal")     -- mở terminal trong tab đó
+end, { noremap = true, silent = true })
+
 
 -- new terminals
 --[[ map("n", "<F10>", function()
@@ -127,19 +138,19 @@ map({ "n", "t" }, "<F10>", function()
   }
 end, { desc = "CPP compile and run" })
 
-map({ "n", "t" }, "<F12>", function()
-  require("nvchad.term").toggle {
-    pos = "float",
-    id = "hToggleTerm",
-    float_opts = {
-      width = 0.5,
-      height = 0.9,
-      row = 0.05,
-      col = 1,
-      -- location = "center",
-    },
-  }
-end, { desc = "terminal toggle floating term" })
+-- map({ "n", "t" }, "<F12>", function()
+--   require("nvchad.term").toggle {
+--     pos = "float",
+--     id = "hToggleTerm",
+--     float_opts = {
+--       width = 0.5,
+--       height = 0.9,
+--       row = 0.05,
+--       col = 1,
+--       -- location = "center",
+--     },
+--   }
+-- end, { desc = "terminal toggle floating term" })
 
 -- map({ "n", "t" }, "<F2>", function()
 -- require("nvchad.term").toggle { pos = "sp", size = 0.3, id = "hCToggleTerm",  }
