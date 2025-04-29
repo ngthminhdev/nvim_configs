@@ -43,8 +43,8 @@ for i = 1, 9, 1 do
 end
 
 
-vim.api.nvim_set_keymap('i', 'clg', [[console.log(`File: <C-R>=expand('%')<CR> - Line: <C-R>=line('.')<CR>: `, )<Left>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', 'jlg', [[console.log(`File: <C-R>=expand('%')<CR> - Line: <C-R>=line('.')<CR>: ${JSON.stringify( , null, 1) }`)<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', 'clg', [[console.log()<Left>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', 'jlg', [[console.log(`${JSON.stringify(, null, 1) }`)<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>]], { noremap = true, silent = true })
 
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"

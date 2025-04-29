@@ -548,7 +548,7 @@ return {
     event = "VeryLazy",
     version = false, -- Never set this value to "*"! Never!
     opts = {
-      provider = "gemini",
+      provider = "qianwen",
       -- auto_suggestions_provider = "qianwen",
       vendors = {
         qianwen = {
@@ -758,12 +758,5 @@ return {
       --   },
       -- },
     },
-  },
-  {
-    "barrett-ruth/import-cost.nvim",
-    build = "sh install.sh npm",
-    config = function(_, opts)
-      require("import-cost").setup(opts)
-    end,
   },
 }

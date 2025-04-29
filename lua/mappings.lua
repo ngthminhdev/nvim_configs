@@ -85,11 +85,11 @@ map("n", "<leader>zm", "<cmd>ZenMode<CR>", { desc = "Toggle ZenMode"})
 -- terminal
 map("t", "<Esc>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
-map("n", "<F12>", function()
-  vim.cmd("sp")       -- mở tab mới
-  vim.cmd("resize 15")       -- mở tab mới
-  vim.cmd("terminal")     -- mở terminal trong tab đó
-end, { noremap = true, silent = true })
+-- map("n", "<F12>", function()
+--   vim.cmd("sp")       -- mở tab mới
+--   vim.cmd("resize 15")       -- mở tab mới
+--   vim.cmd("terminal")     -- mở terminal trong tab đó
+-- end, { noremap = true, silent = true })
 
 
 -- new terminals
@@ -138,19 +138,19 @@ map({ "n", "t" }, "<F10>", function()
   }
 end, { desc = "CPP compile and run" })
 
--- map({ "n", "t" }, "<F12>", function()
---   require("nvchad.term").toggle {
---     pos = "float",
---     id = "hToggleTerm",
---     float_opts = {
---       width = 0.5,
---       height = 0.9,
---       row = 0.05,
---       col = 1,
---       -- location = "center",
---     },
---   }
--- end, { desc = "terminal toggle floating term" })
+map({ "n", "t" }, "<F12>", function()
+  require("nvchad.term").toggle {
+    pos = "float",
+    id = "hToggleTerm",
+    float_opts = {
+      width = 0.5,
+      height = 0.9,
+      row = 0.05,
+      col = 1,
+      -- location = "center",
+    },
+  }
+end, { desc = "terminal toggle floating term" })
 
 -- map({ "n", "t" }, "<F2>", function()
 -- require("nvchad.term").toggle { pos = "sp", size = 0.3, id = "hCToggleTerm",  }
