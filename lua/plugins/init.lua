@@ -543,91 +543,73 @@ return {
     end,
   },
 
-  {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    version = false, -- Never set this value to "*"! Never!
-    opts = {
-      provider = "qianwen",
-      -- auto_suggestions_provider = "qianwen",
-      vendors = {
-        qianwen = {
-          __inherited_from = "openai",
-          endpoint = "http://localhost:1234/v1",
-          model = "qwen2.5-coder-3b-instruct", -- your desired model (or use gpt-4o, etc.)
-          timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-          temperature = 0,
-          max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-          -- ["local"] = true,
-          api_key_name = "",
-          --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
-        },
-
-        gemini = {
-          model = "gemini-2.0-flash", -- your desired model (or use gpt-4o, etc.)
-          timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-          GOOGLE_SEARCH_API_KEY = "",
-          max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-        },
-      },
-      behaviour = {
-        auto_suggestions = false,
-      },
-
-      mappings = {
-        suggestion = {
-          accept = "<C-e>",
-          next = "<C-]>",
-          prev = "<C-[>",
-          dismiss = "<C-.>",
-        },
-      },
-    },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = "make",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "echasnovski/mini.pick", -- for file_selector provider mini.pick
-      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-      "ibhagwan/fzf-lua", -- for file_selector provider fzf
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
-    },
-  },
-  {
-    "ibhagwan/fzf-lua",
-    lazy = false, -- NOTE: NO NEED to Lazy load
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {},
-    configs = function()
-      require("fzf-lua").setup {
-        diagnostics = {
-          previewer = false, -- 🔥 tắt preview để show full logs
-        },
-        winopts = {
-          preview = {
-            hidden = true, -- hoàn toàn ẩn preview window
-          },
-        },
-      }
-    end,
-  },
+  -- {
+  --   "yetone/avante.nvim",
+  --   event = "VeryLazy",
+  --   version = false, -- Never set this value to "*"! Never!
+  --   opts = {
+  --     provider = "qianwen",
+  --     -- auto_suggestions_provider = "qianwen",
+  --     vendors = {
+  --       qianwen = {
+  --         __inherited_from = "openai",
+  --         endpoint = "http://localhost:1234/v1",
+  --         model = "qwen2.5-coder-3b-instruct", -- your desired model (or use gpt-4o, etc.)
+  --         timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+  --         temperature = 0,
+  --         max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
+  --         -- ["local"] = true,
+  --         api_key_name = "",
+  --         --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+  --       },
+  --
+  --       gemini = {
+  --         model = "gemini-2.0-flash", -- your desired model (or use gpt-4o, etc.)
+  --         timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+  --         GOOGLE_SEARCH_API_KEY = "",
+  --         max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
+  --       },
+  --     },
+  --     behaviour = {
+  --       auto_suggestions = false,
+  --     },
+  --
+  --     mappings = {
+  --       suggestion = {
+  --         accept = "<C-e>",
+  --         next = "<C-]>",
+  --         prev = "<C-[>",
+  --         dismiss = "<C-.>",
+  --       },
+  --     },
+  --   },
+  --   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+  --   build = "make",
+  --   dependencies = {
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "stevearc/dressing.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "MunifTanjim/nui.nvim",
+  --     "echasnovski/mini.pick", -- for file_selector provider mini.pick
+  --     "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+  --     "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+  --     "ibhagwan/fzf-lua", -- for file_selector provider fzf
+  --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+  --     {
+  --       -- Make sure to set this up properly if you have lazy=true
+  --       "MeanderingProgrammer/render-markdown.nvim",
+  --       opts = {
+  --         file_types = { "markdown", "Avante" },
+  --       },
+  --       ft = { "markdown", "Avante" },
+  --     },
+  --   },
+  -- },
 
   {
     "Isrothy/neominimap.nvim",
     version = "v3.x.x",
-    lazy = false, -- NOTE: NO NEED to Lazy load
+    -- lazy = false,
     keys = {
       -- Global Minimap Controls
       { "<leader>nm", "<cmd>Neominimap toggle<cr>", desc = "Toggle global minimap" },
@@ -752,11 +734,16 @@ return {
       window = {
         width = 150,
       },
-      -- plugin = {
-      --   kitty = {
-      --     enabled = true,
-      --   },
-      -- },
     },
+  },
+  {
+    "ray-x/go.nvim",
+    dependencies = { "ray-x/guihua.lua" },
+    config = function()
+      require("go").setup()
+    end,
+    event = { "CmdlineEnter" },
+    ft = { "go", "gomod" },
+    build = ':lua require("go.install").update_all_sync()', -- cần Go để chạy
   },
 }

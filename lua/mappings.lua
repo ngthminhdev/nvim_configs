@@ -64,8 +64,8 @@ map("n", "<leader>fc", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = 
 map("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
 map("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" })
-map("n", "<leader>ds", "<cmd>FzfLua diagnostics_document<CR>", { desc = "diagnostics_document" })
-map("n", "<leader>gr", "<cmd>FzfLua lsp_definitions<CR>", { desc = "lsp_definitions" })
+map("n", "<leader>ds", "<cmd>Telescope diagnostics<CR>", { desc = "diagnostics_document" })
+map("n", "<leader>gr", "<cmd>Telescope lsp_definitions<CR>", { desc = "lsp_definitions" })
 -- map("n", "<leader>th", "<cmd>Telescope themes<CR>", { desc = "telescope nvchad themes" })
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
 
@@ -112,13 +112,19 @@ local cmd = string.format("g++ %s && ./a.out", vim.fn.shellescape(filename))
 
 map({ "n", "t" }, "<F10>", function()
   require("nvchad.term").runner {
-    id = "pythonRunner",
-    pos = "vsp",
-    size = 0.3,
+    id = "golangRunner",
+    pos = "float",
+    float_opts = {
+      width = 0.5,
+      height = 0.9,
+      row = 0.05,
+      col = 1,
+    },
     clear_cmd = false,
 
     cmd = function()
-      return "clear && python3 main.py"
+      local file = vim.fn.expand "%"
+      return "go run " .. file
     end,
 
     -- id = "cppRunner",

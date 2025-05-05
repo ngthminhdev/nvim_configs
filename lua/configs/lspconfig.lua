@@ -54,14 +54,14 @@ function M.defaults()
   end
 
 -- Cấu hình các LSP servers
-local servers = { 'dartls', 'lua_ls', 'ts_ls', 'clangd', 'cssls', 'docker_compose_language_service', 'html', 'pylsp' }
+local servers = { 'dartls', 'lua_ls', 'ts_ls', 'clangd', 'cssls', 'docker_compose_language_service', 'html', 'pylsp', 'gopls' }
 
 for _, lsp in ipairs(servers) do
     local config = {
         on_attach = on_attach,
         capabilities = capabilities,
         flags = {
-            debounce_text_changes = 150,
+            debounce_text_changes = 50,
         }
     }
 
@@ -118,6 +118,25 @@ for _, lsp in ipairs(servers) do
                 }
             }
         }
+    end
+
+    if lsp == 'gopls' then
+      config = {
+        lsp_cfg = true,
+        lsp_inlay_hints = {
+          enable = true,
+        },
+        lsp_keymaps = true,
+        lsp_codelens = true,
+        dap_debug = true,
+        auto_format = false,
+        auto_lint = false,
+        on_attach = on_attach,
+        capabilities = capabilities,
+        flags = {
+            debounce_text_changes = 50,
+        }
+      }
     end
 
     nvim_lsp[lsp].setup(config)

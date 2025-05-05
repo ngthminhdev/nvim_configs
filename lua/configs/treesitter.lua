@@ -24,6 +24,7 @@ local options = {
     "dart",
     "python",
     "java",
+    "go"
   },
   sync_install = true,
   indent = {
