@@ -20,7 +20,7 @@
 ## 📋 Yêu cầu
 
 ### Cần thiết
-- Neovim >= 0.8.0 (khuyến nghị 0.9.0 trở lên)
+- Neovim >= 0.10.0
 - Git
 - [Node.js](https://nodejs.org/) (cho một số LSP và plugin)
 - [Nerd Font](https://www.nerdfonts.com/) (cho icons và glyph)
