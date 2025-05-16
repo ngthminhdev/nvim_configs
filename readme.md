@@ -131,7 +131,7 @@ git clone https://github.com/ngthminhdev/nvim_configs.git ~/.config/nvim
 | `<Space>fh`     | Tìm help tags                  |
 | `<Space>fk`     | Tìm keymaps                    |
 
-### Danh sách đầy đủ các phím tắt có thể được tìm thấy trong file `lua/core/keymaps.lua`.
+### Danh sách đầy đủ các phím tắt có thể được tìm thấy trong file `lua/mappings.lua`.
 
 ## 🎨 Theme
 
@@ -143,10 +143,10 @@ Cấu hình này sử dụng theme [Catppuccin](https://github.com/catppuccin/nv
 
 Bạn có thể dễ dàng tùy chỉnh cấu hình bằng cách chỉnh sửa các file trong thư mục `lua/`. Một số file quan trọng:
 
-- `lua/core/options.lua`: Cài đặt Neovim cơ bản
-- `lua/core/keymaps.lua`: Phím tắt
-- `lua/lazy_setup.lua`: Cấu hình lazy.nvim và các plugin
-- `lua/plugins/`: Thư mục chứa cấu hình chi tiết cho từng plugin
+- `lua/options.lua`: Cài đặt Neovim cơ bản
+- `lua/mappings.lua`: Phím tắt
+- `lua/plugins/init.lua`: Cấu hình lazy.nvim và các plugin
+- `lua/configs/`: Thư mục chứa cấu hình chi tiết cho từng plugin
 
 ## 💡 Các tính năng nổi bật
 
@@ -185,4 +185,4 @@ Dự án này được cấp phép theo [MIT License](LICENSE).
 Nếu bạn có bất kỳ câu hỏi nào, hãy tạo một issue trong repository này hoặc liên hệ với tôi qua:
 
 - GitHub: [@ngthminhdev](https://github.com/ngthminhdev)
-- Email: minhnguyen.developer@gmail.com
+- Email: ngthminh.dev@gmail.com
