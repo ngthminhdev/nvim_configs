@@ -251,3 +251,14 @@ map("n", "<leader>gb", "<Cmd>Gitsigns blame<CR>", opts)
 map("n", "<leader>gl", "<Cmd>Gitsigns blame_line<CR>", opts)
 
 map("n", "<C-p>", "<cmd>AerialToggle<cr>", { desc = "Aerial Toggle" })
+
+map("n", "<leader>rs", '<cmd>lua require("kulala").run()<CR>', { noremap = true, silent = true, desc = "Run request" })
+map("n", "<leader>rr", '<cmd>lua require("kulala").replay()<CR>', { noremap = true, silent = true, desc = "Replay request" })
+map("n", "<leader>rh", '<cmd>lua require("kulala.ui").show_headers()<CR>', { noremap = true, silent = true, desc = "Show headers" })
+map("n", "<leader>rb", '<cmd>lua require("kulala.ui").show_body()<CR>', { noremap = true, silent = true, desc = "Show body" })
+map("n", "<leader>ra", '<cmd>lua require("kulala.ui").show_headers_body()<CR>', { noremap = true, silent = true, desc = "Show headers & body" })
+map("n", "<leader>rv", '<cmd>lua require("kulala.ui").show_verbose()<CR>', { noremap = true, silent = true, desc = "Show verbose" })
+map("n", "S", '<cmd>lua require("kulala.ui").show_stats()<CR>', { noremap = true, silent = true, desc = "Show stats" })
+map("n", "R", '<cmd>lua require("kulala.ui").show_report()<CR>', { noremap = true, silent = true, desc = "Show report" })
+
+

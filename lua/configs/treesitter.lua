@@ -24,6 +24,7 @@ local options = {
     "dart",
     "python",
     "java",
+    "http",
     "go"
   },
   sync_install = true,

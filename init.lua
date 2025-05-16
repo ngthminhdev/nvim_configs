@@ -233,3 +233,9 @@ end
 
 vim.lsp.set_log_level('debug')
 require("telescope").load_extension("aerial")
+
+vim.filetype.add({
+  extension = {
+    ['http'] = 'http',
+  },
+})
