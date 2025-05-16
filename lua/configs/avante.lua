@@ -47,6 +47,7 @@ local M = {
       api_key_name = "",
       disable_tools = true,
     },
+
     deepseek = {
       __inherited_from = "openai",
       endpoint = "http://127.0.0.1:11434/v1",
@@ -57,16 +58,7 @@ local M = {
       api_key_name = "",
       disable_tools = true,
     },
-    deepseek = {
-      __inherited_from = "openai",
-      endpoint = "http://127.0.0.1:11434/v1",
-      model = "deepseek-r1:7b",
-      timeout = 30000,
-      temperature = 0,
-      max_completion_tokens = tokens(8),
-      api_key_name = "",
-      disable_tools = true,
-    },
+
     gemma = {
       __inherited_from = "openai",
       endpoint = "http://127.0.0.1:11434/v1",
