@@ -37,17 +37,6 @@ local M = {
       --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
     },
 
-    deepseek_coder = {
-      __inherited_from = "openai",
-      endpoint = "http://127.0.0.1:11434/v1",
-      model = "deepseek-coder:6.7b",
-      timeout = 30000,
-      temperature = 0,
-      max_completion_tokens = tokens(8),
-      api_key_name = "",
-      disable_tools = true,
-    },
-
     deepseek = {
       __inherited_from = "openai",
       endpoint = "http://127.0.0.1:11434/v1",
