@@ -119,8 +119,8 @@ git clone https://github.com/ngthminhdev/nvim_configs.git ~/.config/nvim
 | `K`          | Hiện thông tin                 |
 | `<Space>ca`  | Hiện code actions              |
 | `<Space>rn`  | Đổi tên biến/hàm               |
-| `<Space>f`   | Format code                    |
-| `<Space>d`   | Hiện diagnostics               |
+| `<Space>fm`   | Format code                    |
+| `<Space>ds`   | Hiện diagnostics               |
 | `[d` / `]d`  | Chuyển tới lỗi trước/sau       |
 
 ### Telescope
