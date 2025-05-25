@@ -11,10 +11,10 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.smarttab = true
-vim.opt.softtabstop = 2
+vim.opt.softtabstop = 4
 vim.opt.mouse = 'a'
 vim.opt.completeopt = {'menuone', 'noselect'}
 vim.highlight.priorities.semantic_tokens = 95
@@ -37,7 +37,7 @@ vim.cmd('syntax on')
 vim.g.flutter_tools_hot_reload_on_save = 1
 
 for i = 1, 9, 1 do
-  vim.keymap.set("n", string.format("<A-%s>", i), function()
+  vim.keymap.set("n", string.format("<D-%s>", i), function()
     vim.api.nvim_set_current_buf(vim.t.bufs[i])
   end)
 end
@@ -228,7 +228,7 @@ vim.api.nvim_set_keymap('n', '<Leader>gf', ':LazyGit<CR>', { silent = true })
 dofile(vim.g.base46_cache .. "syntax")
 
 if vim.lsp.inlay_hint then
-  vim.lsp.inlay_hint.enable(false, { 0 })
+  vim.lsp.inlay_hint.enable(true, { 0 })
 end
 
 vim.lsp.set_log_level('debug')
@@ -239,3 +239,9 @@ vim.filetype.add({
     ['http'] = 'http',
   },
 })
+
+if vim.g.neovide then
+    vim.keymap.set({ "n", "v" }, "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
+    vim.keymap.set({ "n", "v" }, "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")
+    vim.keymap.set({ "n", "v" }, "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>")
+end

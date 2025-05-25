@@ -25,7 +25,7 @@ map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
 map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
 
 map("n", "<leader>fm", function()
-  require("conform").format { lsp_fallback = true }
+  require("conform").format { async = true, lsp_fallback = true }
 end, { desc = "format files" })
 
 -- global lsp mappings
@@ -34,11 +34,11 @@ end, { desc = "format files" })
 -- tabufline
 map("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
 
-map("n", "<A-l>", function()
+map("n", "<C-l>", function()
   require("nvchad.tabufline").next()
 end, { desc = "buffer goto next" })
 
-map("n", "<A-h>", function()
+map("n", "<C-h>", function()
   require("nvchad.tabufline").prev()
 end, { desc = "buffer goto prev" })
 
@@ -149,11 +149,10 @@ map({ "n", "t" }, "<F12>", function()
     pos = "float",
     id = "hToggleTerm",
     float_opts = {
-      width = 0.5,
-      height = 0.9,
+      width = 0.7,
+      height = 0.95,
       row = 0.05,
       col = 1,
-      -- location = "center",
     },
   }
 end, { desc = "terminal toggle floating term" })
@@ -262,3 +261,14 @@ map("n", "S", '<cmd>lua require("kulala.ui").show_stats()<CR>', { noremap = true
 map("n", "R", '<cmd>lua require("kulala.ui").show_report()<CR>', { noremap = true, silent = true, desc = "Show report" })
 
 
+-- map("n", "<leader>i", function()
+--   local buf = vim.api.nvim_get_current_buf()
+--   local current = vim.lsp.inlay_hint.is_enabled(buf)
+--   vim.lsp.inlay_hint.enable(not current, { 0 })
+--   vim.notify("Inlay hints " .. (not current and "enabled" or "disabled"))
+-- end, { desc = "Toggle Inlay Hints" })
+
+-- vim.keymap.set("n", "<leader>es", function()
+--   require("conform").format({ async = true, lsp_fallback = true })
+-- end, { desc = "Format with conform" })
+--

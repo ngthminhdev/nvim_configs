@@ -17,9 +17,9 @@ function M.defaults()
       end,
     },
     mapping = {
-      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-f>"] = cmp.mapping.scroll_docs(4),
-      ["<C-Space>"] = cmp.mapping.complete(),
+      ["<A-u>"] = cmp.mapping.scroll_docs(-4),
+      ["<A-d>"] = cmp.mapping.scroll_docs(4),
+      ["<A-Space>"] = cmp.mapping.complete(),
       ["<C-e>"] = cmp.mapping.close(),
       ["<tab>"] = cmp.mapping.confirm {
         behavior = cmp.ConfirmBehavior.Replace,
@@ -55,16 +55,15 @@ function M.defaults()
 
   -- Cấu hình các LSP servers
   local servers = {
-    "dartls",
     "lua_ls",
     "ts_ls",
     "clangd",
     "cssls",
     "docker_compose_language_service",
     "html",
-    "pylsp",
-    "gopls",
+    "python-lsp-server",
     "kulala_ls",
+    "gopls",
   }
 
   for _, lsp in ipairs(servers) do

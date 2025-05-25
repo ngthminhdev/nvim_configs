@@ -3,7 +3,7 @@ local function tokens(num)
 end
 
 local M = {
-  provider = "deepseek_mini",
+  provider = "codellama",
   -- auto_suggestions_provider = "",
   ollama = {
     endpoint = "http://127.0.0.1:11434",
@@ -40,7 +40,7 @@ local M = {
     deepseek = {
       __inherited_from = "openai",
       endpoint = "http://127.0.0.1:11434/v1",
-      model = "deepseek-r1:7b",
+      model = "deepseek-r1:14b",
       timeout = 30000,
       temperature = 0,
       max_completion_tokens = tokens(8),
@@ -48,16 +48,15 @@ local M = {
       disable_tools = true,
     },
 
-    gemma = {
+    codellama = {
       __inherited_from = "openai",
       endpoint = "http://127.0.0.1:11434/v1",
-      model = "gemma3:4b",
+      model = "codellama:13b",
       timeout = 30000,
       temperature = 0,
       max_completion_tokens = tokens(8),
       api_key_name = "",
       disable_tools = true,
-      --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
     },
   },
   behaviour = {

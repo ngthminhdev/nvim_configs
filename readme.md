@@ -103,7 +103,7 @@ git clone https://github.com/ngthminhdev/nvim_configs.git ~/.config/nvim
 | `<Space>ff`  | Tìm kiếm file                  |
 | `<Space>fc`  | Tìm văn bản trong files        |
 | `<Space>fb`  | Tìm buffer                     |
-| `<C-f>`   | Mở file explorer (Neo-tree)    |
+| `<A-f>`   | Mở file explorer (Neo-tree)    |
 | `<Space>w`   | Lưu file                       |
 | `<Space>x`   | Đóng buffer hiện tại           |
 | `<Space>gf`  | Mở lazygit                     |
