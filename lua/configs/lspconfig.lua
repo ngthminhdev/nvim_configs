@@ -61,7 +61,7 @@ function M.defaults()
     "cssls",
     "docker_compose_language_service",
     "html",
-    "python-lsp-server",
+    "pylsp",
     "kulala_ls",
     "gopls",
   }
