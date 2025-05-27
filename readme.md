@@ -1,8 +1,7 @@
-# 🚀 Neovim Configuration
+[[[# 🚀 Neovim Configuration
 
 Đây là cấu hình Neovim cá nhân của tôi, được tối ưu hóa cho phát triển phần mềm với trải nghiệm hiện đại và hiệu quả.
-
-![Neovim](https://neovim.io/logos/neovim-mark-flat.png)
+### Xem thêm Wiki [tại đây](https://deepwiki.com/ngthminhdev/nvim_configs/1-overview)
 
 ## ✨ Tính năng
 
@@ -186,3 +185,4 @@ Nếu bạn có bất kỳ câu hỏi nào, hãy tạo một issue trong reposit
 
 - GitHub: [@ngthminhdev](https://github.com/ngthminhdev)
 - Email: ngthminh.dev@gmail.com
+](https://deepwiki.com/ngthminhdev/nvim_configs/2-getting-started)](https://deepwiki.com/ngthminhdev/nvim_configs/1-overview)](https://deepwiki.com/ngthminhdev/nvim_configs/1-overview)
