@@ -14,6 +14,7 @@ local options = {
     "yamlls",
     "bashls",
     "typescript-language-server",
+    "protols"
   }, -- not an option from mason.nvim
 
   PATH = "skip",

@@ -68,6 +68,7 @@ map("n", "<leader>ds", "<cmd>Telescope diagnostics<CR>", { desc = "diagnostics_d
 map("n", "<leader>gr", "<cmd>Telescope lsp_definitions<CR>", { desc = "lsp_definitions" })
 -- map("n", "<leader>th", "<cmd>Telescope themes<CR>", { desc = "telescope nvchad themes" })
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
+map("n", "<leader>pj", "<cmd>Telescope projects<cr>", { desc = "recent projects" })
 
 map("n", "<leader>th", function()
   require("nvchad.themes").open()
@@ -272,3 +273,8 @@ map("n", "R", '<cmd>lua require("kulala.ui").show_report()<CR>', { noremap = tru
 --   require("conform").format({ async = true, lsp_fallback = true })
 -- end, { desc = "Format with conform" })
 --
+
+map('n', 'gD', '<CMD>Glance definitions<CR>')
+map('n', 'gR', '<CMD>Glance references<CR>')
+map('n', 'gY', '<CMD>Glance type_definitions<CR>')
+map('n', 'gM', '<CMD>Glance implementations<CR>')

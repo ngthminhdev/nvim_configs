@@ -229,15 +229,17 @@ vim.api.nvim_set_keymap('n', '<Leader>gf', ':LazyGit<CR>', { silent = true })
 dofile(vim.g.base46_cache .. "syntax")
 
 if vim.lsp.inlay_hint then
-    vim.lsp.inlay_hint.enable(true, { 0 })
+    vim.lsp.inlay_hint.enable(false, { 0 })
 end
 
 vim.lsp.set_log_level('debug')
 require("telescope").load_extension("aerial")
+require('telescope').load_extension('projects')
 
 vim.filetype.add({
     extension = {
         ['http'] = 'http',
+        ['proto'] = 'proto',
     },
 })
 
@@ -253,4 +255,8 @@ if vim.g.neovide then
     vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true })
     vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true })
     vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true })
+
 end
+
+vim.opt.title = true
+vim.opt.titlestring = vim.fs.basename(vim.fn.getcwd())

@@ -19,7 +19,7 @@ function M.defaults()
     mapping = {
       ["<A-u>"] = cmp.mapping.scroll_docs(-4),
       ["<A-d>"] = cmp.mapping.scroll_docs(4),
-      ["<A-Space>"] = cmp.mapping.complete(),
+      ["<C-Space>"] = cmp.mapping.complete(),
       ["<C-e>"] = cmp.mapping.close(),
       ["<tab>"] = cmp.mapping.confirm {
         behavior = cmp.ConfirmBehavior.Replace,
@@ -64,6 +64,7 @@ function M.defaults()
     "pylsp",
     "kulala_ls",
     "gopls",
+    "buf_ls"
   }
 
   for _, lsp in ipairs(servers) do
@@ -147,6 +148,29 @@ function M.defaults()
           debounce_text_changes = 50,
         },
       }
+    end
+
+    if lsp == "buf_ls" then
+        config = {
+            on_attach = on_attach,
+            capabilities = capabilities,
+            flags = {
+                debounce_text_changes = 50,
+            },
+            cmd = { "buf", "beta", "lsp", "--timeout=0", "--log-format=text" },
+            filetypes = { "proto" },
+        }
+    end
+         
+    if lsp == "clangd" then
+        config = {
+            on_attach = on_attach,
+            capabilities = capabilities,
+            flags = {
+                debounce_text_changes = 50,
+            },
+            filetypes = { "c", "cpp", "objc", "objcpp" },
+        }
     end
 
     nvim_lsp[lsp].setup(config)
