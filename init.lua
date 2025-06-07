@@ -7,7 +7,7 @@ vim.opt.foldlevel = 20
 
 vim.opt.encoding = 'UTF-8'
 vim.opt.number = true
--- vim.opt.termguicolors = true
+vim.opt.termguicolors = true
 vim.opt.relativenumber = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
@@ -233,7 +233,7 @@ if vim.lsp.inlay_hint then
 end
 
 vim.lsp.set_log_level('debug')
-require("telescope").load_extension("aerial")
+-- require("telescope").load_extension("aerial")
 require('telescope').load_extension('projects')
 
 vim.filetype.add({

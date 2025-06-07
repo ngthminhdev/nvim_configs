@@ -261,13 +261,13 @@ return {
         build = ":TSUpdate",
         dependencies = {
             "nvim-treesitter/nvim-treesitter-context",
-            { "LiadOz/nvim-dap-repl-highlights", config = true, branch = "LiadOz/fix-check-parser" },
+            -- { "LiadOz/nvim-dap-repl-highlights", config = true, branch = "LiadOz/fix-check-parser" },
         },
         opts = function()
             return require "configs.treesitter"
         end,
         config = function(_, opts)
-            require("nvim-dap-repl-highlights").setup()
+            -- require("nvim-dap-repl-highlights").setup()
             require("nvim-treesitter.configs").setup(opts)
         end,
     },
@@ -544,30 +544,30 @@ return {
         end,
     },
 
-    {
-        "yetone/avante.nvim",
-        event = "VeryLazy",
-        version = false, -- Never set this value to "*"! Never!
-        opts = require "configs.avante",
-        build = "make",
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter",
-            "stevearc/dressing.nvim",
-            "nvim-lua/plenary.nvim",
-            "MunifTanjim/nui.nvim",
-            "echasnovski/mini.pick",         -- for file_selector provider mini.pick
-            "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-            "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
-            "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
-            {
-                "MeanderingProgrammer/render-markdown.nvim",
-                opts = {
-                    file_types = { "markdown", "Avante" },
-                },
-                ft = { "markdown", "Avante" },
-            },
-        },
-    },
+    -- {
+    --     "yetone/avante.nvim",
+    --     event = "VeryLazy",
+    --     version = false, -- Never set this value to "*"! Never!
+    --     opts = require "configs.avante",
+    --     build = "make",
+    --     dependencies = {
+    --         "nvim-treesitter/nvim-treesitter",
+    --         "stevearc/dressing.nvim",
+    --         "nvim-lua/plenary.nvim",
+    --         "MunifTanjim/nui.nvim",
+    --         "echasnovski/mini.pick",         -- for file_selector provider mini.pick
+    --         "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+    --         "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
+    --         "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
+    --         {
+    --             "MeanderingProgrammer/render-markdown.nvim",
+    --             opts = {
+    --                 file_types = { "markdown", "Avante" },
+    --             },
+    --             ft = { "markdown", "Avante" },
+    --         },
+    --     },
+    -- },
 
     {
         "Isrothy/neominimap.nvim",
@@ -737,9 +737,4 @@ return {
         'dnlhc/glance.nvim',
         cmd = 'Glance'
     },
-    {
-        'barrett-ruth/import-cost.nvim',
-        build = 'sh install.sh yarn',
-        config = true
-    }
 }
