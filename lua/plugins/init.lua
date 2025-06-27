@@ -711,17 +711,17 @@ return {
     --   build = ':lua require("go.install").update_all_sync()', -- cần Go để chạy
     -- },
 
-    {
-        "mistweaverco/kulala.nvim",
-        version = false,
-        lazy = false,
-        opts = function()
-            return require "configs.kulala_nvim"
-        end,
-        config = function(_, opts)
-            require("kulala").setup(opts)
-        end,
-    },
+    -- {
+    --     "mistweaverco/kulala.nvim",
+    --     version = false,
+    --     lazy = false,
+    --     opts = function()
+    --         return require "configs.kulala_nvim"
+    --     end,
+    --     config = function(_, opts)
+    --         require("kulala").setup(opts)
+    --     end,
+    -- },
     {
         "ahmedkhalf/project.nvim",
         event = "VeryLazy",
@@ -736,5 +736,25 @@ return {
     {
         'dnlhc/glance.nvim',
         cmd = 'Glance'
+    },
+    {
+        "windwp/nvim-ts-autotag",
+        event = "InsertEnter",
+        opts = {},
+        config = true,
+    },
+    -- {
+    --     "L3MON4D3/LuaSnip",
+    --     build = "make install_jsregexp",
+    --     dependencies = {
+    --         "rafamadriz/friendly-snippets", -- Hàng trăm snippet cho HTML, React, JS, TS, v.v.
+    --     },
+    --     config = function()
+    --         require("luasnip.loaders.from_vscode").lazy_load()
+    --     end,
+    -- }
+    {
+        'github/copilot.vim',
+        lazy = false
     },
 }

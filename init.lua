@@ -8,6 +8,7 @@ vim.opt.foldlevel = 20
 vim.opt.encoding = 'UTF-8'
 vim.opt.number = true
 vim.opt.termguicolors = true
+
 vim.opt.relativenumber = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
@@ -64,7 +65,7 @@ local function configure_hop()
     local hop = require('hop')
     hop.setup()
 
-    local directions = require('hop.hint').HintDirection
+    -- local directions = require('hop.hint').HintDirection
 
     vim.keymap.set('n', '<leader>s', function()
         hop.hint_char1({ current_line_only = false })
