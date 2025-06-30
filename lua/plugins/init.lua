@@ -295,7 +295,7 @@ return {
     --     require("dapui").setup()
     --   end,
     -- },
-    --
+
     -- {
     --   "akinsho/flutter-tools.nvim",
     --   lazy = false,
@@ -544,30 +544,30 @@ return {
         end,
     },
 
-    -- {
-    --     "yetone/avante.nvim",
-    --     event = "VeryLazy",
-    --     version = false, -- Never set this value to "*"! Never!
-    --     opts = require "configs.avante",
-    --     build = "make",
-    --     dependencies = {
-    --         "nvim-treesitter/nvim-treesitter",
-    --         "stevearc/dressing.nvim",
-    --         "nvim-lua/plenary.nvim",
-    --         "MunifTanjim/nui.nvim",
-    --         "echasnovski/mini.pick",         -- for file_selector provider mini.pick
-    --         "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-    --         "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
-    --         "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
-    --         {
-    --             "MeanderingProgrammer/render-markdown.nvim",
-    --             opts = {
-    --                 file_types = { "markdown", "Avante" },
-    --             },
-    --             ft = { "markdown", "Avante" },
-    --         },
-    --     },
-    -- },
+    {
+        "yetone/avante.nvim",
+        event = "VeryLazy",
+        version = false, -- Never set this value to "*"! Never!
+        opts = require "configs.avante",
+        build = "make",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "stevearc/dressing.nvim",
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+            "echasnovski/mini.pick",         -- for file_selector provider mini.pick
+            "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+            "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
+            "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
+            {
+                "MeanderingProgrammer/render-markdown.nvim",
+                opts = {
+                    file_types = { "markdown", "Avante" },
+                },
+                ft = { "markdown", "Avante" },
+            },
+        },
+    },
 
     {
         "Isrothy/neominimap.nvim",
@@ -757,4 +757,14 @@ return {
         'github/copilot.vim',
         lazy = false
     },
+
+    {
+        "mfussenegger/nvim-dap",
+        dependencies = {
+            "rcarriga/nvim-dap-ui",
+            "theHamsta/nvim-dap-virtual-text",
+            "mxsdev/nvim-dap-vscode-js",
+        },
+    },
+
 }

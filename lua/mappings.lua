@@ -66,6 +66,7 @@ map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git 
 map("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" })
 map("n", "<leader>ds", "<cmd>Telescope diagnostics<CR>", { desc = "diagnostics_document" })
 map("n", "<leader>gr", "<cmd>Telescope lsp_definitions<CR>", { desc = "lsp_definitions" })
+map("n", "<leader>fp", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Document symbols" })
 -- map("n", "<leader>th", "<cmd>Telescope themes<CR>", { desc = "telescope nvchad themes" })
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
 map("n", "<leader>pj", "<cmd>Telescope projects<cr>", { desc = "recent projects" })
@@ -108,8 +109,8 @@ end, { desc = "terminal new horizontal term" }) ]]
 -- end, { desc = "terminal toggleable vertical term" })
 --
 
-local filename = vim.fn.expand "%:t"
-local cmd = string.format("g++ %s && ./a.out", vim.fn.shellescape(filename))
+-- local filename = vim.fn.expand "%:t"
+-- local cmd = string.format("g++ %s && ./a.out", vim.fn.shellescape(filename))
 
 map({ "n", "t" }, "<F10>", function()
     require("nvchad.term").runner {
@@ -187,47 +188,58 @@ end, { desc = "blankline jump to current context" })
 -- Thiết lập phím tắt cho nvim-dap
 -- local dap = require "dap"
 -- local dapui = require "dapui"
---
--- -- Phím tắt F5 để bắt đầu debug
--- map("n", "<F5>", '<cmd>lua require"dap".continue()<CR>', { noremap = true, silent = true })
---
--- -- Phím tắt F6 để khởi động lại debug
--- map("n", "<F6>", '<cmd>lua require"dap".restart()<CR>', { noremap = true, silent = true })
---
--- -- Phím tắt F4 để dừng debug
--- map("n", "<F4>", '<cmd>lua require"dap".terminate()<CR>', { noremap = true, silent = true })
---
--- -- Phím tắt Ctrl+B để bật/tắt breakpoint
--- map("n", "<C-b>", '<cmd>lua require"dap".toggle_breakpoint()<CR>', { noremap = true, silent = true })
---
--- -- Phím tắt <leader>ui để bật/tắt giao diện DAP UI
--- map("n", "<leader>ui", '<cmd>lua require"dapui".toggle()<CR>', { noremap = true, silent = true })
---
--- map("n", "<space>i", '<Cmd>lua require("dapui").eval()<CR>', { noremap = true, silent = true })
---
--- local function watchExpression(expression)
---   dapui.elements.watches.add(expression)
+
+-- dap.listeners.after.event_initialized["dapui_config"] = function()
+--     dapui.open()
 -- end
---
--- -- vim.api.nvim_create_user_command("DapiUIAddToWatch", function(opts)
--- --   watchExpression(opts.args)
--- -- end, { nargs = 1 })
--- --
--- -- map("n", "<space>w", ":DapiUIAddToWatch ", { noremap = true })
---
--- local function removeExpression(expression)
---   dapui.elements.watches.remove(expression)
+-- dap.listeners.before.event_terminated["dapui_config"] = function()
+--     dapui.close()
+-- end
+-- dap.listeners.before.event_exited["dapui_config"] = function()
+--     dapui.close()
 -- end
 
--- vim.api.nvim_create_user_command("DapiUIRemoveWatch", function(opts)
---   removeExpression(opts.args)
--- end, { nargs = 1 })
---
--- map("n", "<space>r", ":DapiUIRemoveWatch ", { noremap = true })
+-- Phím tắt F5 để bắt đầu debug
+map("n", "<F5>", '<cmd>lua require"dap".continue()<CR>', { noremap = true, silent = true })
+
+-- Phím tắt F6 để khởi động lại debug
+map("n", "<F6>", '<cmd>lua require"dap".restart()<CR>', { noremap = true, silent = true })
+
+-- Phím tắt F4 để dừng debug
+map("n", "<F4>", '<cmd>lua require"dap".terminate()<CR>', { noremap = true, silent = true })
+
+-- Phím tắt Ctrl+B để bật/tắt breakpoint
+map("n", "<C-b>", '<cmd>lua require"dap".toggle_breakpoint()<CR>', { noremap = true, silent = true })
+
+-- Phím tắt <leader>ui để bật/tắt giao diện DAP UI
+map("n", "<leader>ui", '<cmd>lua require"dapui".toggle()<CR>', { noremap = true, silent = true })
+
+map("n", "<space>i", '<Cmd>lua require("dapui").eval()<CR>', { noremap = true, silent = true })
+
+local function watchExpression(expression)
+    require("dapui").elements.watches.add(expression)
+end
+
+vim.api.nvim_create_user_command("DapiUIAddToWatch", function(opts)
+    watchExpression(opts.args)
+end, { nargs = 1 })
+
+map("n", "<space>w", ":DapiUIAddToWatch ", { noremap = true })
+
+local function removeExpression(expression)
+    require("dapui").elements.watches.remove(expression)
+end
+
+vim.api.nvim_create_user_command("DapiUIRemoveWatch", function(opts)
+    removeExpression(opts.args)
+end, { nargs = 1 })
+
+map("n", "<space>r", ":DapiUIRemoveWatch ", { noremap = true })
+
 -- map("n", "<space>fr", ":FlutterRun<CR>", { noremap = true, silent = true })
 -- map("n", "<space>cl", ":FlutterLogClear<CR>", { noremap = true, silent = true })
 -- Mở tab mới
--- map('n', '<leader>tn', ':tabnew<CR>', { noremap = true, silent = true })
+
 local opts = { noremap = true, silent = true }
 
 -- Show hover
