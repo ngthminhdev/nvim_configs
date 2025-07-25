@@ -14,7 +14,7 @@ local options = {
         "c",
         "cpp",
         "bash",
-        "dap_repl",
+        -- "dap_repl",
         "html",
         "json",
         "css",

@@ -22,9 +22,9 @@ flutter_tools.setup {
     exception_breakpoints = {}
   },
   -- flutter_path = "/snap/bin/flutter", -- Customize this if needed
-  flutter_path = "/home/ngthminhdev/fvm/versions/2.8.1/bin/flutter", -- Customize this if needed
+  -- flutter_path = "/home/ngthminhdev/fvm/versions/2.8.1/bin/flutter", -- Customize this if needed
   flutter_lookup_cmd = nil, -- Customize this if needed
-  fvm = false,
+  fvm = true,
   widget_guides = {
     enabled = true,
   },

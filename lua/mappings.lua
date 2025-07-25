@@ -236,8 +236,10 @@ end, { nargs = 1 })
 
 map("n", "<space>r", ":DapiUIRemoveWatch ", { noremap = true })
 
--- map("n", "<space>fr", ":FlutterRun<CR>", { noremap = true, silent = true })
--- map("n", "<space>cl", ":FlutterLogClear<CR>", { noremap = true, silent = true })
+map("n", "<space>fr", ":FlutterRun<CR>", { noremap = true, silent = true })
+map("n", "<space>fd", ":FlutterDevices<CR>", { noremap = true, silent = true })
+map("n", "<space>fe", ":FlutterEmulators<CR>", { noremap = true, silent = true })
+map("n", "<space>fl", ":FlutterLogClear<CR>", { noremap = true, silent = true })
 -- Mở tab mới
 
 local opts = { noremap = true, silent = true }

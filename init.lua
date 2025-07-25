@@ -114,7 +114,7 @@ else
     -- })
     require("dap-vscode-js").setup({
         debugger_path = "/Users/bo-minh/Projects/vscode-js-debug/vscode-js-debug/", -- Path to vscode-js-debug installation.
-        adapters = { 'chrome', 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost', 'node', 'chrome' }
+        adapters = { 'chrome', 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost', 'node', 'chrome', 'dart' }
     })
 
     local js_based_languages = { "typescript", "javascript", "typescriptreact", "javascriptreact" }
@@ -128,6 +128,15 @@ else
             command = "js-debug-adapter",
             args = { "${port}" },
         }
+    }
+
+    dap.adapters.dart = {
+        type = "executable",
+        command = "node",
+        args = {
+            vim.fn.stdpath("data") .. "/mason/packages/dart-debug-adapter/extension/out/dist/debug.js",
+            "--observe"
+        },
     }
     for _, language in ipairs(js_based_languages) do
         dap.configurations[language] = {

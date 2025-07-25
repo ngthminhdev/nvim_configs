@@ -296,174 +296,79 @@ return {
     --   end,
     -- },
 
-    -- {
-    --   "akinsho/flutter-tools.nvim",
-    --   lazy = false,
-    --   version = "8edcdabfe982c77482ebde2ba3f46f2adc677e64",
-    --   dependencies = {
-    --     "nvim-lua/plenary.nvim",
-    --     "mfussenegger/nvim-dap",
-    --     "stevearc/dressing.nvim", -- optional for vim.ui.select
-    --   },
-    --   config = function()
-    --     require("flutter-tools").setup {
-    --       debugger = {
-    --         enabled = true,
-    --         run_via_dap = true,
-    --         register_configurations = function(_)
-    --           require("dap").configurations.dart = {
-    --             -- KPOS
-    --             {
-    --               type = "flutter",
-    --               request = "launch",
-    --               name = "[Development] KPOS",
-    --               args = {
-    --                 "--flavor",
-    --                 "development",
-    --               },
-    --               dartSdkPath = "${workspaceFolder}/.fvm/flutter_sdk/bin/cache/dart-sdk",
-    --               flutterSdkPath = "${workspaceFolder}/.fvm/flutter_sdk",
-    --               program = "${workspaceFolder}/lib/main.dart",
-    --               cwd = "${workspaceFolder}",
-    --               platform = "android", -- Chỉ định platform (android hoặc ios)
-    --               autoReload = {
-    --                 enable = true,
-    --               },
-    --             },
-    --             {
-    --               type = "flutter",
-    --               request = "launch",
-    --               name = "[Local] KPOS",
-    --               args = {
-    --                 "--flavor",
-    --                 "local",
-    --               },
-    --               dartSdkPath = "${workspaceFolder}/.fvm/flutter_sdk/bin/cache/dart-sdk",
-    --               flutterSdkPath = "${workspaceFolder}/.fvm/flutter_sdk",
-    --               program = "${workspaceFolder}/lib/main_development.dart",
-    --               cwd = "${workspaceFolder}",
-    --               platform = "android",
-    --               autoReload = {
-    --                 enable = true,
-    --               },
-    --             },
-    --             {
-    --               type = "flutter",
-    --               request = "launch",
-    --               name = "[Staging] KPOS",
-    --               args = {
-    --                 "--flavor",
-    --                 "local",
-    --               },
-    --               dartSdkPath = "${workspaceFolder}/.fvm/flutter_sdk/bin/cache/dart-sdk",
-    --               flutterSdkPath = "${workspaceFolder}/.fvm/flutter_sdk",
-    --               program = "${workspaceFolder}/lib/main_staging.dart",
-    --               cwd = "${workspaceFolder}",
-    --               platform = "android",
-    --             },
-    --             {
-    --               type = "flutter",
-    --               request = "launch",
-    --               name = "[Production] KPOS",
-    --               args = {
-    --                 "--flavor",
-    --                 "local",
-    --               },
-    --               dartSdkPath = "${workspaceFolder}/.fvm/flutter_sdk/bin/cache/dart-sdk",
-    --               flutterSdkPath = "${workspaceFolder}/.fvm/flutter_sdk",
-    --               program = "${workspaceFolder}/lib/main_production.dart",
-    --               cwd = "${workspaceFolder}",
-    --               platform = "android",
-    --             },
-    --
-    --             -- KDB
-    --             {
-    --               type = "flutter",
-    --               request = "launch",
-    --               name = "[Development] KDB",
-    --               args = {
-    --                 "--flavor",
-    --                 "development",
-    --               },
-    --               dartSdkPath = "${workspaceFolder}/.fvm/flutter_sdk/bin/cache/dart-sdk",
-    --               flutterSdkPath = "${workspaceFolder}/.fvm/flutter_sdk",
-    --               program = "${workspaceFolder}/lib/main_dev.dart",
-    --               cwd = "${workspaceFolder}",
-    --               platform = "android",
-    --               autoReload = {
-    --                 enable = true,
-    --               },
-    --             },
-    --             {
-    --               type = "flutter",
-    --               request = "launch",
-    --               name = "[Production] KDB",
-    --               args = {
-    --                 "--flavor",
-    --                 "production",
-    --               },
-    --               dartSdkPath = "${workspaceFolder}/.fvm/flutter_sdk/bin/cache/dart-sdk",
-    --               flutterSdkPath = "${workspaceFolder}/.fvm/flutter_sdk",
-    --               program = "${workspaceFolder}/lib/main_staging.dart",
-    --               cwd = "${workspaceFolder}",
-    --               platform = "android",
-    --             },
-    --             -- {
-    --             --   type = "flutter",
-    --             --   request = "launch",
-    --             --   name = "Launch Flutter",
-    --             --   dartSdkPath = "${workspaceFolder}/.fvm/flutter_sdk/bin/cache/dart-sdk",
-    --             --   flutterSdkPath = "${workspaceFolder}/.fvm/flutter_sdk",
-    --             --   program = "${workspaceFolder}/lib/main.dart",
-    --             --   cwd = "${workspaceFolder}",
-    --             --   platform = "android",
-    --             -- },
-    --           }
-    --
-    --           require("dap").adapters.dart = {
-    --             type = "executable",
-    --             command = "/home/ngthminhdev/fvm/versions/2.8.1/bin/dart",
-    --             -- command = '${workspaceFolder}/.fvm/flutter_sdk',
-    --             args = { "debug_adapter" },
-    --             options = {
-    --               detached = false,
-    --             },
-    --           }
-    --
-    --           require("dap").adapters.flutter = {
-    --             type = "executable",
-    --             command = "/home/ngthminhdev/fvm/versions/2.8.1/bin/flutter",
-    --             -- command = "/home/ngthminhdev/fvm/versions/3.19.0/bin/flutter",
-    --             args = { "debug_adapter" },
-    --             options = {
-    --               detached = false,
-    --             },
-    --           }
-    --         end,
-    --       },
-    --       fvm = true,
-    --       -- flutter_path = "/home/ngthminhdev/fvm/versions/2.8.1/bin/flutter",
-    --       lsp = {
-    --         settings = {
-    --           dart = {
-    --             completeFunctionCalls = true,
-    --           },
-    --         },
-    --         color = { enabled = true },
-    --       },
-    --       decorations = {
-    --         statusline = { device = true, app_version = true },
-    --       },
-    --       dev_log = {
-    --         enabled = true,
-    --         notify_errors = false,
-    --         open_cmd = "tabedit",
-    --         exception_breakpoints = {},
-    --       },
-    --     }
-    --   end,
-    -- },
-    --
+    {
+        "akinsho/flutter-tools.nvim",
+        lazy = false,
+        version = "8edcdabfe982c77482ebde2ba3f46f2adc677e64",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "mfussenegger/nvim-dap",
+            "stevearc/dressing.nvim",
+        },
+        config = function()
+            require("flutter-tools").setup({
+                fvm = true,
+                debugger = {
+                    enabled = true,
+                    run_via_dap = true,
+                },
+                lsp = {
+                    color = { enabled = true },
+                    settings = {
+                        dart = {
+                            completeFunctionCalls = true,
+                        },
+                    },
+                },
+                decorations = {
+                    statusline = { device = true, app_version = true },
+                },
+                dev_log = {
+                    enabled = true,
+                    notify_errors = false,
+                    open_cmd = "tabedit",
+                },
+            })
+
+            -- BẮT BUỘC: thêm DAP configuration cho Dart
+            local dap = require("dap")
+            dap.configurations.dart = {
+                {
+                    type = "dart",
+                    request = "launch",
+                    name = "Launch Dart Program",
+                    program = "${workspaceFolder}/lib/main.dart",
+                    cwd = "${workspaceFolder}",
+                }
+            }
+        end,
+    },
+
+    {
+        "mtdl9/vim-log-highlighting",
+        ft = { "log" },
+        config = function()
+            -- Tự động ép file Flutter log nhận dạng kiểu log để highlight
+            vim.api.nvim_create_autocmd("BufEnter", {
+                pattern = "*_FLUTTER_DEV_LOG_*",
+                callback = function()
+                    vim.bo.filetype = "log"
+                end,
+            })
+
+            vim.api.nvim_create_autocmd("TermOpen", {
+                pattern = "term://*",
+                callback = function(args)
+                    local bufname = vim.api.nvim_buf_get_name(args.buf)
+                    if bufname:match("FLUTTER_DEV_LOG") or bufname:match("log") then
+                        -- Set filetype để plugin highlight log hoạt động
+                        vim.bo[args.buf].filetype = "log"
+                    end
+                end,
+            })
+        end,
+    },
+
     {
         "nvim-neotest/nvim-nio",
         -- lazy = false,
