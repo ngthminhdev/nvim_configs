@@ -1,0 +1,455 @@
+[
+  // ===============================
+  // BASIC NAVIGATION
+  // ===============================
+  {
+    "key": "ctrl+h",
+    "command": "cursorLeft",
+    "when": "textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "cursorRight",
+    "when": "textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "cursorDown",
+    "when": "textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "cursorUp",
+    "when": "textInputFocus && !editorReadonly"
+  },
+  
+  // ===============================
+  // WINDOW MANAGEMENT
+  // ===============================
+  {
+    "key": "shift+\\",
+    "command": "workbench.action.splitEditor"
+  },
+  {
+    "key": "escape",
+    "command": "workbench.action.closeMessages",
+    "when": "globalMessageVisible"
+  },
+  {
+    "key": "escape",
+    "command": "search.action.cancel",
+    "when": "searchViewletVisible"
+  },
+  
+  // Window navigation with leader key (space)
+  {
+    "key": "space h",
+    "command": "workbench.action.focusLeftGroup",
+    "when": "editorFocus"
+  },
+  {
+    "key": "space l",
+    "command": "workbench.action.focusRightGroup",
+    "when": "editorFocus"
+  },
+  {
+    "key": "space j",
+    "command": "workbench.action.focusBelowGroup",
+    "when": "editorFocus"
+  },
+  {
+    "key": "space k",
+    "command": "workbench.action.focusAboveGroup",
+    "when": "editorFocus"
+  },
+  
+  // ===============================
+  // TAB/BUFFER MANAGEMENT
+  // ===============================
+  {
+    "key": "alt+tab",
+    "command": "workbench.action.nextEditor"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.nextEditor",
+    "when": "!textInputFocus"
+  },
+  {
+    "key": "ctrl+h",
+    "command": "workbench.action.previousEditor",
+    "when": "!textInputFocus"
+  },
+  {
+    "key": "space b",
+    "command": "workbench.action.files.newUntitledFile"
+  },
+  {
+    "key": "space x",
+    "command": "workbench.action.closeActiveEditor"
+  },
+  
+  // ===============================
+  // FILE NAVIGATION & SEARCH
+  // ===============================
+  {
+    "key": "space f f",
+    "command": "workbench.action.quickOpen"
+  },
+  {
+    "key": "space f a",
+    "command": "workbench.action.quickOpen"
+  },
+  {
+    "key": "space f w",
+    "command": "workbench.action.findInFiles"
+  },
+  {
+    "key": "space f b",
+    "command": "workbench.action.showAllEditors"
+  },
+  {
+    "key": "space f o",
+    "command": "workbench.action.openRecent"
+  },
+  {
+    "key": "space f c",
+    "command": "actions.find"
+  },
+  {
+    "key": "space p j",
+    "command": "workbench.action.openRecent"
+  },
+  {
+    "key": "ctrl+f",
+    "command": "workbench.view.explorer"
+  },
+  
+  // ===============================
+  // CODE NAVIGATION & LSP
+  // ===============================
+  {
+    "key": "g d",
+    "command": "editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus"
+  },
+  {
+    "key": "g shift+d",
+    "command": "editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus"
+  },
+  {
+    "key": "space g r",
+    "command": "editor.action.goToReferences",
+    "when": "editorHasReferenceProvider && editorTextFocus"
+  },
+  {
+    "key": "g shift+r",
+    "command": "editor.action.goToReferences",
+    "when": "editorHasReferenceProvider && editorTextFocus"
+  },
+  {
+    "key": "g shift+y",
+    "command": "editor.action.goToTypeDefinition",
+    "when": "editorHasTypeDefinitionProvider && editorTextFocus"
+  },
+  {
+    "key": "g shift+m",
+    "command": "editor.action.goToImplementation",
+    "when": "editorHasImplementationProvider && editorTextFocus"
+  },
+  {
+    "key": "ctrl+shift+k",
+    "command": "editor.action.showHover",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "k",
+    "command": "editor.action.showHover",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  
+  // Code actions
+  {
+    "key": "space c a",
+    "command": "editor.action.quickFix",
+    "when": "editorHasCodeActionsProvider && editorTextFocus"
+  },
+  
+  // Diagnostics
+  {
+    "key": "space d s",
+    "command": "workbench.actions.view.problems"
+  },
+  
+  // Document symbols
+  {
+    "key": "space f p",
+    "command": "workbench.action.gotoSymbol"
+  },
+  
+  // ===============================
+  // REFACTORING & FORMATTING
+  // ===============================
+  {
+    "key": "space f m",
+    "command": "editor.action.formatDocument",
+    "when": "editorHasDocumentFormattingProvider && editorTextFocus"
+  },
+  {
+    "key": "space r n",
+    "command": "editor.action.rename",
+    "when": "editorHasRenameProvider && editorTextFocus"
+  },
+  
+  // ===============================
+  // GIT INTEGRATION
+  // ===============================
+  {
+    "key": "space c m",
+    "command": "workbench.view.scm"
+  },
+  {
+    "key": "space g t",
+    "command": "workbench.view.scm"
+  },
+  {
+    "key": "space g b",
+    "command": "gitlens.toggleFileBlame"
+  },
+  {
+    "key": "space g l",
+    "command": "gitlens.toggleFileBlame"
+  },
+  
+  // ===============================
+  // DEBUGGING
+  // ===============================
+  {
+    "key": "f5",
+    "command": "workbench.action.debug.start"
+  },
+  {
+    "key": "f6",
+    "command": "workbench.action.debug.restart"
+  },
+  {
+    "key": "f4",
+    "command": "workbench.action.debug.stop"
+  },
+  {
+    "key": "ctrl+b",
+    "command": "editor.debug.action.toggleBreakpoint"
+  },
+  {
+    "key": "space u i",
+    "command": "workbench.view.debug"
+  },
+  {
+    "key": "space i",
+    "command": "editor.debug.action.showDebugHover",
+    "when": "debuggersAvailable && editorTextFocus"
+  },
+  
+  // ===============================
+  // TERMINAL
+  // ===============================
+  {
+    "key": "f12",
+    "command": "workbench.action.terminal.toggleTerminal"
+  },
+  {
+    "key": "f10",
+    "command": "workbench.action.tasks.runTask"
+  },
+  
+  // ===============================
+  // RUN/BUILD
+  // ===============================
+  {
+    "key": "space f r",
+    "command": "workbench.action.debug.run"
+  },
+  {
+    "key": "space f d",
+    "command": "workbench.action.debug.selectandstart"
+  },
+  
+  // ===============================
+  // UTILITIES
+  // ===============================
+  {
+    "key": "space r n",
+    "command": "editor.action.toggleRenderWhitespace"
+  },
+  {
+    "key": "space z m",
+    "command": "workbench.action.toggleZenMode"
+  },
+  {
+    "key": "space f h",
+    "command": "workbench.action.openGlobalKeybindings"
+  },
+  
+  // Comment toggle
+  {
+    "key": "space /",
+    "command": "editor.action.commentLine",
+    "when": "editorTextFocus"
+  },
+  
+  // ===============================
+  // SEARCH & REPLACE
+  // ===============================
+  {
+    "key": "space s r",
+    "command": "editor.action.startFindReplaceAction"
+  },
+  {
+    "key": "space shift+s shift+r",
+    "command": "workbench.action.replaceInFiles"
+  },
+  
+  // ===============================
+  // CUSTOM ACTIONS
+  // ===============================
+  {
+    "key": "space :",
+    "command": "workbench.action.showCommands"
+  },
+  {
+    "key": "space r l",
+    "command": "workbench.action.openRecent"
+  },
+  {
+    "key": "space m a",
+    "command": "bookmarks.toggle"
+  },
+  {
+    "key": "space n",
+    "command": "editor.action.toggleLineNumbers"
+  },
+  
+  // ===============================
+  // ADDITIONAL WEBSTORM/VSCODE SPECIFIC
+  // ===============================
+  {
+    "key": "ctrl+p",
+    "command": "editor.action.triggerParameterHints",
+    "when": "editorHasSignatureHelpProvider && editorTextFocus"
+  },
+  {
+    "key": "space e m",
+    "command": "editor.action.extractMethod",
+    "when": "editorHasCodeActionsProvider && editorTextFocus"
+  },
+  {
+    "key": "space e v",
+    "command": "editor.action.quickFix",
+    "when": "editorHasCodeActionsProvider && editorTextFocus"
+  },
+  {
+    "key": "space o i",
+    "command": "editor.action.organizeImports",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "space g c",
+    "command": "editor.action.quickFix",
+    "when": "editorHasCodeActionsProvider && editorTextFocus"
+  },
+  
+  // Navigate to next/previous error
+  {
+    "key": "] e",
+    "command": "editor.action.marker.next"
+  },
+  {
+    "key": "[ e",
+    "command": "editor.action.marker.prev"
+  },
+  
+  // Navigate to next/previous method
+  {
+    "key": "] m",
+    "command": "workbench.action.editor.nextChange"
+  },
+  {
+    "key": "[ m",
+    "command": "workbench.action.editor.previousChange"
+  },
+  
+  // ===============================
+  // COPILOT-LIKE SUGGESTIONS
+  // ===============================
+  {
+    "key": "ctrl+j",
+    "command": "editor.action.inlineSuggest.commit",
+    "when": "inlineSuggestionVisible && !editorReadonly"
+  },
+  
+  // ===============================
+  // TERMINAL MODE MAPPINGS
+  // ===============================
+  {
+    "key": "escape",
+    "command": "workbench.action.terminal.focus",
+    "when": "terminalFocus"
+  },
+  
+  // ===============================
+  // MULTIPLE CURSORS
+  // ===============================
+  {
+    "key": "alt+n",
+    "command": "editor.action.addSelectionToNextFindMatch",
+    "when": "editorFocus"
+  },
+  {
+    "key": "ctrl+alt+shift+j",
+    "command": "editor.action.selectHighlights",
+    "when": "editorFocus"
+  },
+  {
+    "key": "alt+j",
+    "command": "editor.action.addSelectionToNextFindMatch",
+    "when": "editorFocus"
+  },
+  {
+    "key": "alt+k",
+    "command": "editor.action.addSelectionToPreviousFindMatch",
+    "when": "editorFocus"
+  },
+  {
+    "key": "ctrl+shift+up",
+    "command": "editor.action.insertCursorAbove",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+shift+down",
+    "command": "editor.action.insertCursorBelow",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "alt+shift+j",
+    "command": "editor.action.insertCursorBelow",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "alt+shift+k",
+    "command": "editor.action.insertCursorAbove",
+    "when": "editorTextFocus"
+  },
+  
+  // ===============================
+  // NOTIFICATIONS
+  // ===============================
+  {
+    "key": "space n l",
+    "command": "notifications.showList"
+  },
+  {
+    "key": "space n h",
+    "command": "notifications.showList"
+  }
+]

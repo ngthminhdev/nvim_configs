@@ -1,7 +1,5 @@
 local map = vim.keymap.set
 
--- map("i", "<C-b>", "<ESC>^i", { desc = "move beginning of line" })
--- map("i", "<C-e>", "<End>", { desc = "move end of line" })
 map("i", "<C-h>", "<C-o>h", { desc = "move left" })
 map("i", "<C-l>", "<C-o>l", { desc = "move right" })
 map("i", "<C-j>", "<C-o>j", { desc = "move down" })
@@ -15,11 +13,6 @@ map("n", "<leader>l", "<C-w>l", { desc = "switch window right" })
 map("n", "<leader>j", "<C-w>j", { desc = "switch window down" })
 map("n", "<leader>k", "<C-w>k", { desc = "switch window up" })
 
--- map("n", "<C-s>", "<cmd>w<CR>", { desc = "file save" })
--- map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "file copy whole" })
-
--- map("n", "<leader>n", "<cmd>set nu!<CR>", { desc= "toggle line number" })
--- map("n", "<space>tn", ":tabnew<CR>:terminal<CR>", { noremap = true, silent = true })
 map("n", "<A-Tab>", ":tabnext<CR>", { desc = "Tab next" })
 map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
 map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
@@ -27,9 +20,6 @@ map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" }
 map("n", "<leader>fm", function()
     require("conform").format { async = true, lsp_fallback = true }
 end, { desc = "format files" })
-
--- global lsp mappings
--- map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "lsp diagnostic loclist" })
 
 -- tabufline
 map("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
@@ -45,10 +35,6 @@ end, { desc = "buffer goto prev" })
 map("n", "<leader>x", function()
     require("nvchad.tabufline").close_buffer()
 end, { desc = "buffer close" })
-
--- Comment
--- map("n", "<leader>/", "gcc", { desc = "comment toggle", remap = true })
--- map("v", "<leader>/", "gc", { desc = "comment toggle", remap = true })
 
 -- nvimtree
 map("n", "<C-f>", "<cmd>NvimTreeToggle<CR>", { desc = "nvimtree toggle window" })
@@ -87,30 +73,6 @@ map("n", "<leader>zm", "<cmd>ZenMode<CR>", { desc = "Toggle ZenMode" })
 -- terminal
 map("t", "<Esc>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
--- map("n", "<F12>", function()
---   vim.cmd("sp")       -- mở tab mới
---   vim.cmd("resize 15")       -- mở tab mới
---   vim.cmd("terminal")     -- mở terminal trong tab đó
--- end, { noremap = true, silent = true })
-
-
--- new terminals
---[[ map("n", "<F10>", function()
-  require("nvchad.term").new { pos = "float", size = 0.8 }
-end, { desc = "terminal new horizontal term" }) ]]
---
--- map("n", "<F11>", function()
--- require("nvchad.term").new { pos = "vsp" }
--- end, { desc = "terminal new vertical window" })
-
--- toggleable
--- map({ "n", "t" }, "<F10>", function()
--- require("nvchad.term").toggle { pos = "vsp", id = "vtoggleTerm" }
--- end, { desc = "terminal toggleable vertical term" })
---
-
--- local filename = vim.fn.expand "%:t"
--- local cmd = string.format("g++ %s && ./a.out", vim.fn.shellescape(filename))
 
 map({ "n", "t" }, "<F10>", function()
     require("nvchad.term").runner {
@@ -158,16 +120,6 @@ map({ "n", "t" }, "<F12>", function()
         },
     }
 end, { desc = "terminal toggle floating term" })
-
--- map({ "n", "t" }, "<F2>", function()
--- require("nvchad.term").toggle { pos = "sp", size = 0.3, id = "hCToggleTerm",  }
--- end, { desc = "C debug" })
--- whichkey
--- map("n", "<leader>wK", "<cmd>WhichKey <CR>", { desc = "whichkey all keymaps" })
---
--- map("n", "<leader>wk", function()
--- vim.cmd("WhichKey " .. vim.fn.input "WhichKey: ")
--- end, { desc = "whichkey query lookup" })
 
 -- blankline
 map("n", "<leader>cc", function()
@@ -280,18 +232,6 @@ map("n", "<leader>rv", '<cmd>lua require("kulala.ui").show_verbose()<CR>',
 map("n", "S", '<cmd>lua require("kulala.ui").show_stats()<CR>', { noremap = true, silent = true, desc = "Show stats" })
 map("n", "R", '<cmd>lua require("kulala.ui").show_report()<CR>', { noremap = true, silent = true, desc = "Show report" })
 
-
--- map("n", "<leader>i", function()
---   local buf = vim.api.nvim_get_current_buf()
---   local current = vim.lsp.inlay_hint.is_enabled(buf)
---   vim.lsp.inlay_hint.enable(not current, { 0 })
---   vim.notify("Inlay hints " .. (not current and "enabled" or "disabled"))
--- end, { desc = "Toggle Inlay Hints" })
-
--- vim.keymap.set("n", "<leader>es", function()
---   require("conform").format({ async = true, lsp_fallback = true })
--- end, { desc = "Format with conform" })
---
 
 map('n', 'gD', '<CMD>Glance definitions<CR>')
 map('n', 'gR', '<CMD>Glance references<CR>')

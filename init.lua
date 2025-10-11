@@ -253,17 +253,23 @@ vim.filetype.add({
 })
 
 if vim.g.neovide then
-    vim.g.neovide_input_use_logo = 1
-    vim.g.neovide_scale_factor = 1.1
+  -- ★ Đưa các thư mục có node/npm lên ĐẦU PATH cho Neovide (GUI)
+  local node_bin = "/Users/bo-minh/.nvm/versions/node/v20.19.3/bin"
+  local hb_arm   = "/opt/homebrew/bin:/opt/homebrew/sbin"  -- nếu có Homebrew arm64
+  local hb_intel = "/usr/local/bin:/usr/local/sbin"        -- nếu có Homebrew intel
+  vim.env.PATH = table.concat({ node_bin, hb_arm, hb_intel, vim.env.PATH }, ":")
 
-    vim.keymap.set({ "n", "v" }, "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
-    vim.keymap.set({ "n", "v" }, "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")
-    vim.keymap.set({ "n", "v" }, "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>")
+  vim.g.neovide_input_use_logo = 1
+  vim.g.neovide_scale_factor = 1.1
 
-    vim.api.nvim_set_keymap('', '<D-v>', '+p<CR>', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true })
+  vim.keymap.set({ "n", "v" }, "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
+  vim.keymap.set({ "n", "v" }, "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")
+  vim.keymap.set({ "n", "v" }, "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>")
+
+  vim.api.nvim_set_keymap('', '<D-v>', '+p<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true })
 end
 
 vim.opt.title = true

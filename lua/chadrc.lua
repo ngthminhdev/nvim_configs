@@ -5,8 +5,8 @@
 local M = {}
 
 M.base46 = {
-    theme = "bearded-arc",
-    toggle_theme = { "bearded-arc", "one_light" },
+    theme = "beared_solarized",
+    toggle_theme = { "beared_solarized", "one_light" },
     transparency = false,
     lsp_semantic_tokens = false
 
