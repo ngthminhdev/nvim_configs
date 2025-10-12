@@ -464,6 +464,7 @@ return {
             "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
             "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
             "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
+            -- "zbirenbaum/copilot.lua",
             {
                 "MeanderingProgrammer/render-markdown.nvim",
                 opts = {

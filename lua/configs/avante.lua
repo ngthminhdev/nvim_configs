@@ -3,7 +3,8 @@ local function tokens(num)
 end
 
 local M = {
-  provider = "gemini",
+  -- provider = "gemini",
+  provider = "copilot",
   -- auto_suggestions_provider = "",
   -- ollama = {
   --   endpoint = "http://127.0.0.1:11434",
