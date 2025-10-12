@@ -1,186 +1,186 @@
--- lspconfig.lua
-local M = {
-    -- lsp = {
-    --   signature = true
-    -- }
-}
+-- lspconfig.lua (Neovim 0.11+ style)
+local M = {}
 
 function M.defaults()
-    local nvim_lsp = require "lspconfig"
-    local cmp = require "cmp"
+  -- nvim-cmp
+  local cmp = require "cmp"
+  cmp.setup {
+    snippet = {
+      expand = function(args)
+        require("luasnip").lsp_expand(args.body)
+      end,
+    },
+    mapping = {
+      ["<A-u>"] = cmp.mapping.scroll_docs(-4),
+      ["<A-d>"] = cmp.mapping.scroll_docs(4),
+      ["<C-Space>"] = cmp.mapping.complete(),
+      ["<C-e>"] = cmp.mapping.close(),
+      ["<tab>"] = cmp.mapping.confirm {
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = true,
+      },
+    },
+    sources = {
+      { name = "nvim_lsp" },
+      { name = "buffer" },
+      { name = "path" },
+    },
+  }
 
-    -- Cấu hình nvim-cmp.
-    cmp.setup {
-        snippet = {
-            expand = function(args)
-                require("luasnip").lsp_expand(args.body)
-            end,
-        },
-        mapping = {
-            ["<A-u>"] = cmp.mapping.scroll_docs(-4),
-            ["<A-d>"] = cmp.mapping.scroll_docs(4),
-            ["<C-Space>"] = cmp.mapping.complete(),
-            ["<C-e>"] = cmp.mapping.close(),
-            ["<tab>"] = cmp.mapping.confirm {
-                behavior = cmp.ConfirmBehavior.Replace,
-                select = true,
-            },
-        },
-        sources = {
-            { name = "nvim_lsp" },
-            { name = "buffer" },
-            { name = "path" },
-        },
+  -- Capabilities cho LSP (kết hợp với cmp)
+  local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+  -------------------------------------------------------------------------
+  -- Thay vì truyền on_attach cho từng server, dùng LspAttach cho keymaps
+  -------------------------------------------------------------------------
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      local bufnr = args.buf
+      local opts = { silent = true, buffer = bufnr }
+
+      -- Keymaps khuyến nghị (API mới)
+      -- vim.keymap.set("n", "<C-i>", vim.lsp.buf.definition, opts)
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+      vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+      vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
+      vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
+      vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+
+      -- Diagnostics API mới
+      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+      vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
+
+      -- Format API mới
+      vim.api.nvim_buf_create_user_command(bufnr, "Format", function()
+        vim.lsp.buf.format({ async = true })
+      end, {})
+    end,
+  })
+
+  -------------------------------------------------------------------------
+  -- Danh sách servers
+  -------------------------------------------------------------------------
+  local servers = {
+    "lua_ls",
+    "ts_ls",
+    "clangd",
+    "cssls",
+    "docker_compose_language_service",
+    "html",
+    "pylsp",
+    "gopls",
+    "buf_ls",
+  }
+
+  -------------------------------------------------------------------------
+  -- Cấu hình từng server với vim.lsp.config (Neovim 0.11+)
+  -- Lưu ý: nvim-lspconfig vẫn cung cấp default cmd/root_dir/settings.
+  -- vim.lsp.config("<server>", opts) sẽ hợp nhất với default của lspconfig.
+  -------------------------------------------------------------------------
+  for _, lsp in ipairs(servers) do
+    local cfg = {
+      capabilities = capabilities,
+      flags = { debounce_text_changes = 50 },
     }
 
-    -- Khả năng LSP cho nvim-cmp.
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-    -- Hàm on_attach để cài đặt key mappings sau khi LSP được đính kèm vào buffer.
-    local on_attach = function(_, bufnr)
-        local opts = { noremap = true, silent = true }
-        -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-i>", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-        -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
-        vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+    -- Dart (dartls) - nếu bạn thêm "dartls" vào servers, block này sẽ chạy
+    if lsp == "dartls" then
+      local dart_capabilities = vim.lsp.protocol.make_client_capabilities()
+      -- Disable semantic tokens
+      dart_capabilities.textDocument.semanticTokens = {
+        dynamicRegistration = false,
+        formats = {},
+        requests = { full = false, range = false },
+        tokenModifiers = {},
+        tokenTypes = {},
+      }
+      cfg.capabilities = dart_capabilities
+      cfg.settings = {
+        dart = {
+          completeFunctionCalls = true,
+          showTodos = true,
+          analysisExcludedFolders = {
+            ".dart_tool", ".github", "build", "android", "ios",
+          },
+        },
+      }
     end
 
-    -- Cấu hình các LSP servers
-    local servers = {
-        "lua_ls",
-        "ts_ls",
-        "clangd",
-        "cssls",
-        "docker_compose_language_service",
-        "html",
-        "pylsp",
-        "kulala_ls",
-        "gopls",
-        "buf_ls"
-    }
-
-    for _, lsp in ipairs(servers) do
-        local config = {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            flags = {
-                debounce_text_changes = 50,
-            },
-        }
-
-        -- Cấu hình riêng cho dartls
-        if lsp == "dartls" then
-            local dart_capabilities = vim.lsp.protocol.make_client_capabilities()
-            -- Disable semantic tokens
-            dart_capabilities.textDocument.semanticTokens = {
-                dynamicRegistration = false,
-                formats = {},
-                requests = {
-                    full = false,
-                    range = false,
-                },
-                tokenModifiers = {},
-                tokenTypes = {},
-            }
-
-            config.capabilities = dart_capabilities
-
-            -- Thêm các cài đặt đặc biệt cho Dart
-            config.settings = {
-                dart = {
-                    completeFunctionCalls = true,
-                    showTodos = true,
-                    analysisExcludedFolders = {
-                        ".dart_tool",
-                        ".github",
-                        "build",
-                        "android",
-                        "ios",
-                    },
-                },
-            }
-        end
-
-        -- Giữ nguyên cấu hình cho TypeScript
-        if lsp == "ts_ls" then
-            config.settings = {
-                typescript = {
-                    inlayHints = {
-                        includeInlayParameterNameHints = "literals", -- Chỉ hiển thị khi dùng literals
-                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                        includeInlayFunctionParameterTypeHints = false, -- Tắt kiểu dữ liệu
-                        includeInlayVariableTypeHints = false, -- Tắt kiểu biến
-                        includeInlayFunctionLikeReturnTypeHints = false,
-                        includeInlayPropertyDeclarationTypeHints = true,
-                        includeInlayEnumMemberValueHints = true,
-                    }
-                },
-                javascript = {
-                    inlayHints = {
-                        includeInlayParameterNameHints = "literals", -- Chỉ hiển thị khi dùng literals
-                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                        includeInlayFunctionParameterTypeHints = false, -- Tắt kiểu dữ liệu
-                        includeInlayVariableTypeHints = false, -- Tắt kiểu biến
-                        includeInlayFunctionLikeReturnTypeHints = false,
-                        includeInlayPropertyDeclarationTypeHints = true,
-                        includeInlayEnumMemberValueHints = true,
-                    },
-                },
-            }
-        end
-
-        if lsp == "gopls" then
-            config = {
-                lsp_cfg = true,
-                lsp_inlay_hints = {
-                    enable = true,
-                },
-                lsp_keymaps = true,
-                lsp_codelens = true,
-                dap_debug = true,
-                auto_format = false,
-                auto_lint = false,
-                on_attach = on_attach,
-                capabilities = capabilities,
-                flags = {
-                    debounce_text_changes = 50,
-                },
-            }
-        end
-
-        if lsp == "buf_ls" then
-            config = {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                flags = {
-                    debounce_text_changes = 50,
-                },
-                cmd = { "buf", "beta", "lsp", "--timeout=0", "--log-format=text" },
-                filetypes = { "proto" },
-            }
-        end
-
-        if lsp == "clangd" then
-            config = {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                flags = {
-                    debounce_text_changes = 50,
-                },
-                filetypes = { "c", "cpp", "objc", "objcpp" },
-            }
-        end
-
-        nvim_lsp[lsp].setup(config)
+    -- TypeScript / JavaScript (ts_ls)
+    if lsp == "ts_ls" then
+      cfg.settings = {
+        typescript = {
+          inlayHints = {
+            includeInlayParameterNameHints = "literals",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = false,
+            includeInlayVariableTypeHints = false,
+            includeInlayFunctionLikeReturnTypeHints = false,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayEnumMemberValueHints = true,
+          },
+        },
+        javascript = {
+          inlayHints = {
+            includeInlayParameterNameHints = "literals",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = false,
+            includeInlayVariableTypeHints = false,
+            includeInlayFunctionLikeReturnTypeHints = false,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayEnumMemberValueHints = true,
+          },
+        },
+      }
     end
+
+    -- Go (gopls)
+    if lsp == "gopls" then
+      -- Các field như lsp_cfg/lsp_inlay_hints/... là của plugin go.nvim, LSP core sẽ bỏ qua; vẫn để nếu bạn dùng chung.
+      cfg = vim.tbl_deep_extend("force", cfg, {
+        lsp_cfg = true,
+        lsp_inlay_hints = { enable = true },
+        lsp_keymaps = true,
+        lsp_codelens = true,
+        dap_debug = true,
+        auto_format = false,
+        auto_lint = false,
+        settings = {
+          gopls = {
+            analyses = { unusedparams = true, unreachable = true },
+            staticcheck = true,
+          },
+        },
+      })
+    end
+
+    -- Buf (protobuf) qua buf lsp
+    if lsp == "buf_ls" then
+      cfg = vim.tbl_deep_extend("force", cfg, {
+        cmd = { "buf", "beta", "lsp", "--timeout=0", "--log-format=text" },
+        filetypes = { "proto" },
+      })
+    end
+
+    -- Clangd
+    if lsp == "clangd" then
+      cfg = vim.tbl_deep_extend("force", cfg, {
+        filetypes = { "c", "cpp", "objc", "objcpp" },
+      })
+    end
+
+    -- Đăng ký cấu hình server với core LSP
+    vim.lsp.config(lsp, cfg)
+  end
+
+  -------------------------------------------------------------------------
+  -- Bật tất cả servers
+  -------------------------------------------------------------------------
+  for _, lsp in ipairs(servers) do
+    pcall(vim.lsp.enable, lsp)  -- dùng pcall để không vỡ nếu thiếu binary
+  end
 end
 
 return M

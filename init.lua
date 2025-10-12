@@ -20,6 +20,12 @@ vim.opt.mouse = 'a'
 vim.opt.completeopt = { 'menuone', 'noselect' }
 vim.highlight.priorities.semantic_tokens = 95
 
+vim.opt.guicursor = ""
+vim.api.nvim_set_hl(0, "Cursor", { reverse = true })
+vim.api.nvim_set_hl(0, "TermCursor", { reverse = true })
+vim.opt.winblend = 0
+vim.opt.pumblend = 0
+
 vim.o.swapfile = false
 vim.opt.wrap = true
 
@@ -241,7 +247,7 @@ if vim.lsp.inlay_hint then
     vim.lsp.inlay_hint.enable(false, { 0 })
 end
 
-vim.lsp.set_log_level('debug')
+vim.lsp.set_log_level('WARN')
 -- require("telescope").load_extension("aerial")
 require('telescope').load_extension('projects')
 
@@ -254,7 +260,7 @@ vim.filetype.add({
 
 if vim.g.neovide then
   -- ★ Đưa các thư mục có node/npm lên ĐẦU PATH cho Neovide (GUI)
-  local node_bin = "/Users/bo-minh/.nvm/versions/node/v20.19.3/bin"
+  local node_bin = "/Users/bo-minh/.nvm/versions/node/v22.20.0/bin"
   local hb_arm   = "/opt/homebrew/bin:/opt/homebrew/sbin"  -- nếu có Homebrew arm64
   local hb_intel = "/usr/local/bin:/usr/local/sbin"        -- nếu có Homebrew intel
   vim.env.PATH = table.concat({ node_bin, hb_arm, hb_intel, vim.env.PATH }, ":")
