@@ -20,11 +20,14 @@ vim.opt.mouse = 'a'
 vim.opt.completeopt = { 'menuone', 'noselect' }
 vim.highlight.priorities.semantic_tokens = 95
 
-vim.opt.guicursor = ""
+vim.opt.guicursor =
+  "n-v-c-sm:block," ..
+  "i-ci-ve:ver25-blinkwait300-blinkon200-blinkoff150," ..
+  "r-cr-o:hor20"
 vim.api.nvim_set_hl(0, "Cursor", { reverse = true })
 vim.api.nvim_set_hl(0, "TermCursor", { reverse = true })
-vim.opt.winblend = 0
-vim.opt.pumblend = 0
+-- vim.opt.winblend = 0
+-- vim.opt.pumblend = 0
 
 vim.o.swapfile = false
 vim.opt.wrap = true
