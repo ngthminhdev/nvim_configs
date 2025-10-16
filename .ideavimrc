@@ -1,0 +1,290 @@
+" Highlight copied text
+Plug 'machakann/vim-highlightedyank'
+" Commentary plugin
+Plug 'tpope/vim-commentary'
+
+" .ideavimrc - IdeaVim configuration for WebStorm
+" Đặt file này trong thư mục home (~/.ideavimrc)
+
+" ===============================
+" BASIC SETTINGS
+" ===============================
+set number
+set relativenumber
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set scrolloff=8
+set sidescrolloff=8
+set keep-english-in-normal
+
+" ===============================
+" LEADER KEY
+" ===============================
+let mapleader = " "
+
+" ===============================
+" IDEAVIM PLUGINS
+" ===============================
+" Bật các plugin IdeaVim
+set surround
+set commentary
+set argtextobj
+set easymotion
+set textobj-entire
+set ReplaceWithRegister
+set exchange
+set vim-paragraph-motion
+set textobj-indent
+set highlightedyank
+set multicursor
+
+" ===============================
+" MULTIPLE CURSORS
+" ===============================
+" Multiple cursor mappings (sử dụng plugin multiple-cursors)
+" Tạo cursor tại từ tiếp theo giống như từ hiện tại
+map mc <A-n>
+" Tạo cursor tại tất cả từ giống như từ hiện tại
+map mca <C-Alt-Shift-J>
+" Tạo cursor tại dòng trên/dưới
+map <A-j> <Plug>NextWholeOccurrence
+map <A-k> <Plug>PrevWholeOccurrence
+" Bỏ cursor cuối cùng
+map <A-x> <Plug>RemoveOccurrence
+" Bỏ cursor hiện tại và chuyển sang cursor tiếp theo
+map <A-p> <Plug>SkipOccurrence
+
+" Alternative multiple cursor mappings
+nnoremap mc :action SelectNextOccurrence<CR>
+nnoremap mca :action SelectAllOccurrences<CR>
+nnoremap mci :action UnselectPreviousOccurrence<CR>
+nnoremap mcj :action SelectNextOccurrence<CR>
+nnoremap mck :action UnselectPreviousOccurrence<CR>
+nnoremap mcl :action SelectAllOccurrences<CR>
+
+" Clone cursor up/down
+nnoremap <C-S-Up> :action EditorCloneCaretAbove<CR>
+nnoremap <C-S-Down> :action EditorCloneCaretBelow<CR>
+nnoremap <A-S-j> :action EditorCloneCaretBelow<CR>
+nnoremap <A-S-k> :action EditorCloneCaretAbove<CR>
+
+" Multiple cursors trong visual mode
+vnoremap mc :action SelectNextOccurrence<CR>
+vnoremap mca :action SelectAllOccurrences<CR>
+
+" ===============================
+" INSERT MODE NAVIGATION
+" ===============================
+" Di chuyển trong insert mode (giống Neovim config)
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+
+" ===============================
+" NORMAL MODE MAPPINGS
+" ===============================
+" Clear highlights
+nnoremap <Esc> :noh<CR>
+
+" Window/Tab navigation
+nnoremap <leader>h <C-w>h
+nnoremap <leader>l <C-w>l
+nnoremap <leader>j <C-w>j
+nnoremap <leader>k <C-w>k
+
+" Split windows
+nnoremap <Bar> :action SplitVertically<CR>
+
+" Tab navigation
+nnoremap <A-Tab> :action NextTab<CR>
+nnoremap <C-l> :action NextTab<CR>
+nnoremap <C-h> :action PreviousTab<CR>
+
+" Buffer/Tab management
+nnoremap <leader>b :action NewScratchFile<CR>
+nnoremap <leader>x :action CloseContent<CR>
+
+" ===============================
+" FILE NAVIGATION & SEARCH
+" ===============================
+" File finder (thay thế Telescope)
+nnoremap <leader>ff :action GotoFile<CR>
+nnoremap <leader>fa :action GotoFile<CR>
+nnoremap <leader>fw :action FindInPath<CR>
+nnoremap <leader>fb :action RecentFiles<CR>
+nnoremap <leader>fo :action RecentFiles<CR>
+nnoremap <leader>fc :action Find<CR>
+
+" Project navigation
+nnoremap <leader>pj :action ManageRecentProjects<CR>
+nnoremap <C-f> :action ActivateProjectToolWindow<CR>
+
+" ===============================
+" CODE NAVIGATION & LSP
+" ===============================
+" Go to definition/references
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap gD :action GotoDeclaration<CR>
+nnoremap <leader>gr :action FindUsages<CR>
+nnoremap gR :action FindUsages<CR>
+nnoremap gY :action GotoTypeDeclaration<CR>
+nnoremap gM :action GotoImplementation<CR>
+
+" Show hover info
+nnoremap <C-K> :action QuickJavaDoc<CR>
+
+" Code actions
+nnoremap <leader>ca :action ShowIntentionActions<CR>
+vnoremap <leader>ca :action ShowIntentionActions<CR>
+
+" Diagnostics/Errors
+nnoremap <leader>ds :action ActivateProblemsViewToolWindow<CR>
+
+" Document symbols
+nnoremap <leader>fp :action FileStructurePopup<CR>
+
+" ===============================
+" REFACTORING & FORMATTING
+" ===============================
+" Format code
+nnoremap <leader>fm :action ReformatCode<CR>
+
+" Rename
+nnoremap <leader>rn :action RenameElement<CR>
+
+" ===============================
+" GIT INTEGRATION
+" ===============================
+nnoremap <leader>cm :action Vcs.Show.Log<CR>
+nnoremap <leader>gt :action Vcs.Show.Local.Changes<CR>
+nnoremap <leader>gb :action Annotate<CR>
+nnoremap <leader>gl :action Annotate<CR>
+
+" ===============================
+" DEBUGGING
+" ===============================
+" Debug controls
+nnoremap <F5> :action Debug<CR>
+nnoremap <F6> :action Rerun<CR>
+nnoremap <F4> :action Stop<CR>
+
+" Breakpoints
+nnoremap <C-b> :action ToggleLineBreakpoint<CR>
+
+" Debug UI
+nnoremap <leader>ui :action ActivateDebugToolWindow<CR>
+
+" Evaluate expression
+nnoremap <space>i :action EvaluateExpression<CR>
+
+" ===============================
+" TERMINAL
+" ===============================
+nnoremap <F12> :action ActivateTerminalToolWindow<CR>
+nnoremap <F10> :action Run<CR>
+
+" ===============================
+" RUN/BUILD
+" ===============================
+" Run configurations
+nnoremap <space>fr :action Run<CR>
+nnoremap <space>fd :action ChooseDebugConfiguration<CR>
+
+" ===============================
+" UTILITIES
+" ===============================
+" Toggle relative numbers
+nnoremap <leader>rn :set relativenumber!<CR>
+
+" Zen mode
+nnoremap <leader>zm :action ToggleDistractionFreeMode<CR>
+
+" Help
+nnoremap <leader>fh :action HelpTopics<CR>
+
+" Comment toggle (với plugin commentary)
+nnoremap <leader>/ gcc
+vnoremap <leader>/ gc
+
+" ===============================
+" SEARCH & REPLACE
+" ===============================
+" Find and replace
+" nnoremap <leader>sr :action Replace<CR>
+" nnoremap <leader>sR :action ReplaceInPath<CR>
+
+" ===============================
+" CUSTOM ACTIONS
+" ===============================
+" Show all actions
+nnoremap <leader>: :action GotoAction<CR>
+
+" Recent locations
+nnoremap <leader>rl :action RecentLocations<CR>
+
+" Show bookmarks
+nnoremap <leader>ma :action ShowBookmarks<CR>
+
+" Toggle line numbers
+nnoremap <leader>n :set number!<CR>
+
+" ===============================
+" EASYMOTION SETTINGS
+" ===============================
+" EasyMotion configuration
+nmap <leader>s <Plug>(easymotion-s2)
+nmap <leader>t <Plug>(easymotion-t2)
+
+" ===============================
+" ADDITIONAL WEBSTORM SPECIFIC
+" ===============================
+" Show parameter info
+nnoremap <C-p> :action ParameterInfo<CR>
+
+" Quick documentation
+nnoremap K :action QuickJavaDoc<CR>
+
+" Show usages
+" nnoremap <leader>su :action ShowUsages<CR>
+
+" Extract method/variable
+nnoremap <leader>em :action ExtractMethod<CR>
+nnoremap <leader>ev :action IntroduceVariable<CR>
+
+" Optimize imports
+nnoremap <leader>oi :action OptimizeImports<CR>
+
+" Generate code
+nnoremap <leader>gc :action Generate<CR>
+
+" Navigate to next/previous error
+nnoremap ]e :action GotoNextError<CR>
+nnoremap [e :action GotoPreviousError<CR>
+
+" Navigate to next/previous method
+nnoremap ]m :action MethodDown<CR>
+nnoremap [m :action MethodUp<CR>
+
+" ===============================
+" COPILOT-LIKE SUGGESTIONS
+" ===============================
+" WebStorm có tích hợp sẵn AI suggestions
+" Bật trong Settings > Editor > General > Code Completion
+inoremap <C-j> <C-y>  " Accept suggestion
+inoremap <C-l> <Esc>:action HippieCompletion<CR>a
+
+" ===============================
+" TERMINAL MODE MAPPINGS
+" ===============================
+" Escape terminal mode (trong terminal tool window)
+tnoremap <Esc> <C-\><C-n>
+
+" ===============================
+" NOICE-LIKE NOTIFICATIONS
+" ===============================
+" Show recent notifications
+nnoremap <leader>nl :action ShowEventLog<CR>
+nnoremap <leader>nh :action ShowEventLog<CR>
