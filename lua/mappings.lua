@@ -71,7 +71,7 @@ map(
 map("n", "<leader>zm", "<cmd>ZenMode<CR>", { desc = "Toggle ZenMode" })
 
 -- terminal
--- map("t", "<Esc>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+map("t", "<C-t>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
 
 map({ "n", "t" }, "<F10>", function()
