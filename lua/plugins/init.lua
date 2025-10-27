@@ -100,6 +100,7 @@ return {
                 yaml = { "prettier" },
                 cpp = { "clang-format" },
                 json = { "jq" },
+                sql = { "sql_formatter" },
             },
             -- formatters = {
             --   prettier = {

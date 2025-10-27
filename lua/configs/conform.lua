@@ -1,6 +1,7 @@
 local options = {
   formatters_by_ft = {
     lua = { "stylua" },
+    sql = { "sql_formatter" },
     -- css = { "prettier" },
     -- html = { "prettier" },
   },
