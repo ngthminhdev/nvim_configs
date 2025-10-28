@@ -1,12 +1,12 @@
 local map = vim.keymap.set
 
-map("i", "<C-h>", "<C-o>h", { desc = "move left" })
-map("i", "<C-l>", "<C-o>l", { desc = "move right" })
-map("i", "<C-j>", "<C-o>j", { desc = "move down" })
-map("i", "<C-k>", "<C-o>k", { desc = "move up" })
+-- map("i", "<C-h>", "<C-o>h", { desc = "move left" })
+-- map("i", "<C-l>", "<C-o>l", { desc = "move right" })
+-- map("i", "<C-j>", "<C-o>j", { desc = "move down" })
+-- map("i", "<C-k>", "<C-o>k", { desc = "move up" })
 
-map("n", "<Bar>", "<cmd>vsplit<CR>", { desc = "switch window up" })
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "general clear highlights" })
+map("n", "<Bar>", "<cmd>vsplit<CR>", { desc = "switch window up" })
 
 map("n", "<leader>h", "<C-w>h", { desc = "switch window left" })
 map("n", "<leader>l", "<C-w>l", { desc = "switch window right" })
@@ -71,7 +71,7 @@ map(
 map("n", "<leader>zm", "<cmd>ZenMode<CR>", { desc = "Toggle ZenMode" })
 
 -- terminal
-map("t", "<C-t>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+map("t", "<C-q>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
 
 map({ "n", "t" }, "<F10>", function()
@@ -197,7 +197,7 @@ map("n", "<space>fl", ":FlutterLogClear<CR>", { noremap = true, silent = true })
 local opts = { noremap = true, silent = true }
 
 -- Show hover
-map("n", "C-K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+map("n", "C-i", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
 -- Jump to definition
 map("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
 -- Open code actions
@@ -238,6 +238,13 @@ map('n', 'gR', '<CMD>Glance references<CR>')
 map('n', 'gY', '<CMD>Glance type_definitions<CR>')
 map('n', 'gM', '<CMD>Glance implementations<CR>')
 
+-- Move line up/down with Alt + Arrow
+vim.keymap.set("n", "<C-j>", ":m .+1<CR>==", { desc = "Move line down" })
+vim.keymap.set("n", "<C-k>", ":m .-2<CR>==", { desc = "Move line up" })
+vim.keymap.set("i", "<C-j>", "<Esc>:m .+1<CR>==gi", { desc = "Move line down" })
+vim.keymap.set("i", "<C-k>", "<Esc>:m .-2<CR>==gi", { desc = "Move line up" })
+vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 map('i', '<C-j>', 'copilot#Accept("\\<CR>")', {
     expr = true,
