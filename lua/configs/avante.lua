@@ -4,21 +4,21 @@ end
 
 local M = {
   -- provider = "ollama",
-  -- provider = "gemini",
-  provider = "copilot",
+  provider = "gemini",
+  -- provider = "copilot",
 
-  providers = {
-    ollama = {
-      endpoint = "http://127.0.0.1:11434",
-      model = "gpt-oss:20b", -- dùng `ollama ls` để xem models có sẵn
-      extra_request_body = {
-        options = {
-          num_ctx = tokens(32),
-        },
-      },
-      stream = true,
-    },
-  },
+  -- providers = {
+  --   ollama = {
+  --     endpoint = "http://127.0.0.1:11434",
+  --     model = "gpt-oss:20b", -- dùng `ollama ls` để xem models có sẵn
+  --     extra_request_body = {
+  --       options = {
+  --         num_ctx = tokens(32),
+  --       },
+  --     },
+  --     stream = true,
+  --   },
+  -- },
 
   -- vendors = {
   --   deepseek = {
