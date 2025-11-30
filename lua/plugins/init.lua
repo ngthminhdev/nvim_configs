@@ -278,26 +278,6 @@ return {
   },
 
   -- {
-  --   "mfussenegger/nvim-dap",
-  --   lazy = false,
-  --   config = function()
-  --     require "configs.dap"
-  --   end,
-  -- },
-  -- {
-  --   "mxsdev/nvim-dap-vscode-js",
-  --   requires = { "mfussenegger/nvim-dap" },
-  -- },
-  --
-  -- {
-  --   "rcarriga/nvim-dap-ui",
-  --   lazy = false,
-  --   config = function()
-  --     require("dapui").setup()
-  --   end,
-  -- },
-
-  -- {
   --   "akinsho/flutter-tools.nvim",
   --   lazy = false,
   --   version = "8edcdabfe982c77482ebde2ba3f46f2adc677e64",
@@ -672,12 +652,55 @@ return {
       "theHamsta/nvim-dap-virtual-text",
       "mxsdev/nvim-dap-vscode-js",
     },
+    lazy = false,
+    config = function()
+      require "configs.dap"
+    end,
   },
+
+  -- {
+  --   "rcarriga/nvim-dap-ui",
+  --   lazy = false,
+  --   config = function()
+  --     require("dapui").setup()
+  --   end,
+  -- },
+  -- {
+  --   "mfussenegger/nvim-dap",
+  -- },
+  -- {
+  --   "mxsdev/nvim-dap-vscode-js",
+  --   requires = { "mfussenegger/nvim-dap" },
+  -- },
+
   {
     "adelarsq/image_preview.nvim",
     event = "VeryLazy",
     config = function()
       require("image_preview").setup()
+    end,
+  },
+  {
+    "phaazon/hop.nvim",
+    lazy = false,
+    branch = "v2",
+    config = function()
+      local hop = require "hop"
+      hop.setup()
+
+      -- local directions = require('hop.hint').HintDirection
+
+      vim.keymap.set("n", "<leader>s", function()
+        hop.hint_char1 { current_line_only = false }
+      end, { silent = true, noremap = true, desc = "Hop to character" })
+
+      vim.keymap.set("n", "<leader>2s", function()
+        hop.hint_char2 { current_line_only = false }
+      end, { silent = true, noremap = true, desc = "Hop to 2 characters" })
+
+      vim.keymap.set("n", "<leader>ws", function()
+        hop.hint_words { current_line_only = false }
+      end, { silent = true, noremap = true, desc = "Hop to word" })
     end,
   },
 }

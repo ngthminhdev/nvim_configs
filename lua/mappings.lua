@@ -4,6 +4,14 @@ local map = vim.keymap.set
 -- map("i", "<C-l>", "<C-o>l", { desc = "move right" })
 -- map("i", "<C-j>", "<C-o>j", { desc = "move down" })
 -- map("i", "<C-k>", "<C-o>k", { desc = "move up" })
+-- 
+map("i", "clg", [[console.log()<Left>]], { noremap = true, silent = true })
+map(
+  "i",
+  "jlg",
+  [[console.log(`${JSON.stringify(, null, 1) }`)<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>]],
+  { noremap = true, silent = true }
+)
 
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "general clear highlights" })
 map("n", "<Bar>", "<cmd>vsplit<CR>", { desc = "switch window up" })
@@ -250,4 +258,24 @@ map('i', '<C-j>', 'copilot#Accept("\\<CR>")', {
     expr = true,
     replace_keycodes = false
 })
+
+map("n", "<leader>dr", function()
+  local dapui = require("dapui")
+  dapui.float_element("repl", {
+    enter = true, 
+    width = 100,
+    height = 20,
+  })
+end, { desc = "Open & focus DAP console (float)" })
+
+map("n", "<leader>dc", function()
+  local dapui = require("dapui")
+  dapui.float_element("console", {
+    enter = true, 
+    width = 100,
+    height = 20,
+  })
+end, { desc = "Open & focus DAP console (float)" })
+
 vim.g.copilot_no_tab_map = true
+

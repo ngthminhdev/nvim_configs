@@ -58,4 +58,10 @@ g["loaded_ruby_provider"] = 0
 local is_windows = vim.fn.has "win32" ~= 0
 local sep = is_windows and "\\" or "/"
 local delim = is_windows and ";" or ":"
+
+vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "DapBreakpoint", numhl = "" })
+vim.fn.sign_define("DapStopped", { text = "", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" })
+--
+vim.cmd [[ highlight DapStopped guibg=#3c3836 ]]
+
 vim.env.PATH = table.concat({ vim.fn.stdpath "data", "mason", "bin" }, sep) .. delim .. vim.env.PATH

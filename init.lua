@@ -23,8 +23,6 @@ vim.hl.priorities.semantic_tokens = 95
 vim.opt.guicursor = "n-v-c-sm:block," .. "i-ci-ve:ver25-blinkwait300-blinkon200-blinkoff150," .. "r-cr-o:hor20"
 vim.api.nvim_set_hl(0, "Cursor", { reverse = true })
 vim.api.nvim_set_hl(0, "TermCursor", { reverse = true })
--- vim.opt.winblend = 0
--- vim.opt.pumblend = 0
 
 vim.o.swapfile = false
 vim.opt.wrap = true
@@ -34,11 +32,6 @@ vim.g.python3_host_prog = vim.fn.getcwd() .. "/.venv/bin/python"
 vim.cmd "syntax enable"
 vim.cmd "syntax on"
 
-vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "DapBreakpoint", numhl = "" })
-vim.fn.sign_define("DapStopped", { text = "", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" })
---
-vim.cmd [[ highlight DapStopped guibg=#3c3836 ]]
-
 vim.g.flutter_tools_hot_reload_on_save = 1
 
 for i = 1, 9, 1 do
@@ -46,14 +39,6 @@ for i = 1, 9, 1 do
     vim.api.nvim_set_current_buf(vim.t.bufs[i])
   end)
 end
-
-vim.api.nvim_set_keymap("i", "clg", [[console.log()<Left>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-  "i",
-  "jlg",
-  [[console.log(`${JSON.stringify(, null, 1) }`)<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>]],
-  { noremap = true, silent = true }
-)
 
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
@@ -66,25 +51,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local lazy_config = require "configs.lazy"
-
-local function configure_hop()
-  local hop = require "hop"
-  hop.setup()
-
-  -- local directions = require('hop.hint').HintDirection
-
-  vim.keymap.set("n", "<leader>s", function()
-    hop.hint_char1 { current_line_only = false }
-  end, { silent = true, noremap = true, desc = "Hop to character" })
-
-  vim.keymap.set("n", "<leader>2s", function()
-    hop.hint_char2 { current_line_only = false }
-  end, { silent = true, noremap = true, desc = "Hop to 2 characters" })
-
-  vim.keymap.set("n", "<leader>ws", function()
-    hop.hint_words { current_line_only = false }
-  end, { silent = true, noremap = true, desc = "Hop to word" })
-end
 
 if vim.g.vscode then
 else
@@ -99,147 +65,11 @@ else
         require "options"
       end,
     },
-    {
-      "phaazon/hop.nvim",
-      lazy = false,
-      branch = "v2",
-      config = configure_hop,
-    },
     { import = "plugins" },
   }, lazy_config)
 
   require "nvchad.autocmds"
   --
-  local dap = require "dap"
-  local dapui = require "dapui"
-
-  -- require("dap-vscode-js").setup({
-  --     debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
-  --     adapters = { "pwa-node", "pwa-chrome" },
-  -- })
-  require("dap-vscode-js").setup {
-    debugger_path = "/Users/bo-minh/Projects/vscode-js-debug/vscode-js-debug/", -- Path to vscode-js-debug installation.
-    adapters = {
-      "chrome",
-      "pwa-node",
-      "pwa-chrome",
-      "pwa-msedge",
-      "node-terminal",
-      "pwa-extensionHost",
-      "node",
-      "chrome",
-      "dart",
-    },
-  }
-
-  local js_based_languages = { "typescript", "javascript", "typescriptreact", "javascriptreact" }
-
-  dap.adapters["pwa-node"] = {
-    type = "server",
-    host = "localhost",
-    port = "${port}",
-    executable = {
-      command = "js-debug-adapter",
-      args = { "${port}" },
-    },
-  }
-
-  dap.adapters.dart = {
-    type = "executable",
-    command = "node",
-    args = {
-      vim.fn.stdpath "data" .. "/mason/packages/dart-debug-adapter/extension/out/dist/debug.js",
-      "--observe",
-    },
-  }
-  for _, language in ipairs(js_based_languages) do
-    dap.configurations[language] = {
-      {
-        type = "pwa-node",
-        request = "launch",
-        name = "Debug: npm run debug",
-        runtimeExecutable = "npm",
-        runtimeArgs = { "run", "dev" },
-        cwd = "${workspaceFolder}",
-        console = "integratedTerminal",
-        internalConsoleOptions = "neverOpen",
-      },
-      {
-        type = "pwa-node",
-        request = "launch",
-        name = "Launch current file",
-        program = "${file}",
-        cwd = "${workspaceFolder}",
-        sourceMaps = true,
-        protocol = "inspector",
-        console = "integratedTerminal",
-      },
-      {
-        type = "pwa-node",
-        request = "attach",
-        name = "Attach to process",
-        processId = require("dap.utils").pick_process,
-        cwd = "${workspaceFolder}",
-      },
-      {
-        type = "pwa-chrome",
-        request = "launch",
-        name = "Debug Chrome localhost:3000",
-        url = "http://localhost:3000",
-        webRoot = "${workspaceFolder}",
-        userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir",
-      },
-    }
-  end
-
-  dapui.setup {
-    layouts = {
-      {
-        elements = {
-          -- { id = 'repl', size = 0.01 },
-          { id = "scopes", size = 0.35 },
-          { id = "watches", size = 0.35 },
-          { id = "breakpoints", size = 0.3 },
-        },
-        size = 40,
-        position = "left",
-      },
-      {
-        elements = { "repl" },
-        size = 0.2,
-        position = "bottom",
-      },
-    },
-    controls = {
-      enabled = true,
-      element = "repl",
-    },
-    floating = {
-      max_height = 20, -- These can be integers or a float between 0 and 1.
-      max_width = 100, -- Floats will be treated as percentage of your screen.
-      border = "single", -- Border style. Can be "single", "double" or "rounded"
-      mappings = {
-        close = { "q", "<Esc>" },
-        focus = { "<leader>df" },
-      },
-    },
-  }
-
-  dap.listeners.after.event_initialized["dapui_config"] = function()
-    dapui.open()
-  end
-  dap.listeners.before.event_terminated["dapui_config"] = function()
-    dapui.close()
-  end
-  dap.listeners.before.event_exited["dapui_config"] = function()
-    dapui.close()
-  end
-  vim.api.nvim_set_keymap(
-    "n",
-    "<leader>df",
-    '<cmd>lua require("dapui").float_element()<CR>',
-    { noremap = true, silent = true }
-  )
 end
 
 -- load theme
@@ -261,13 +91,6 @@ end
 vim.lsp.set_log_level "WARN"
 -- require("telescope").load_extension("aerial")
 require("telescope").load_extension "projects"
-
-vim.filetype.add {
-  extension = {
-    ["http"] = "http",
-    ["proto"] = "proto",
-  },
-}
 
 if vim.g.neovide then
   -- ★ Đưa các thư mục có node/npm lên ĐẦU PATH cho Neovide (GUI)
@@ -291,3 +114,9 @@ end
 
 vim.opt.title = true
 vim.opt.titlestring = vim.fs.basename(vim.fn.getcwd())
+vim.filetype.add {
+  extension = {
+    ["http"] = "http",
+    ["proto"] = "proto",
+  },
+}
