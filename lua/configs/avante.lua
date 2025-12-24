@@ -4,8 +4,15 @@ end
 
 local M = {
   -- provider = "ollama",
-  provider = "gemini",
-  -- provider = "copilot",
+  -- provider = "gemini",
+  provider = "copilot",
+  providers = {
+    copilot = {
+      model = "claude-sonnet-4.5",
+      max_completion_tokens = tokens(16),
+      stream = true,
+    }
+  },
 
   -- providers = {
   --   ollama = {

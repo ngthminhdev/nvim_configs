@@ -1,6 +1,7 @@
 {
     "diagnostics.globals": [
-        "vim"
+        "vim",
+        "alpha"
     ],
     "diagnostics.disable": [
         "different-requires"

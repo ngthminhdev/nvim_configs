@@ -5,16 +5,19 @@
 local M = {}
 
 M.base46 = {
-    theme = "bearded_solarized",
-    toggle_theme = { "bearded_solarized", "one_light" },
-    transparency = false,
-    lsp_semantic_tokens = false
-
+    theme = "bearded-arc",
+    toggle_theme = { "bearded-arc", "one_light" },
+    lsp_semantic_tokens = false,
+    transparency = false
 
     -- hl_override = {
     -- 	Comment = { italic = true },
     -- 	["@comment"] = { italic = true },
     -- },
 }
+
+if vim.g.neovide then
+    M.base46.transparency = false
+end
 
 return M

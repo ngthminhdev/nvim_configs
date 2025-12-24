@@ -98,9 +98,13 @@ if vim.g.neovide then
   local hb_arm = "/opt/homebrew/bin:/opt/homebrew/sbin" -- nếu có Homebrew arm64
   vim.env.PATH = table.concat({ node_bin, hb_arm, vim.env.PATH }, ":")
 
+  vim.g.neovide_refresh_rate = 120
   vim.g.neovide_input_use_logo = 1
-  vim.g.neovide_scale_factor = 1.1
-  vim.o.guifont = "Google_Sans_Code:r:h15"
+  vim.g.neovide_scale_factor = 1
+  vim.g.neovide_opacity = 0.9
+  vim.g.transparency = 0.8
+  -- vim.g.neovide_no_idle = true
+  vim.o.guifont = "Google_Sans_Code:thin:h15"
 
   vim.keymap.set({ "n", "v" }, "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
   vim.keymap.set({ "n", "v" }, "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")

@@ -72,6 +72,7 @@ function M.defaults()
     "pylsp",
     "gopls",
     "buf_ls",
+    "rust_analyzer",
   }
 
   -------------------------------------------------------------------------
@@ -168,6 +169,33 @@ function M.defaults()
     if lsp == "clangd" then
       cfg = vim.tbl_deep_extend("force", cfg, {
         filetypes = { "c", "cpp", "objc", "objcpp" },
+      })
+    end
+
+    -- Rust Analyzer
+    if lsp == "rust_analyzer" then
+      cfg = vim.tbl_deep_extend("force", cfg, {
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = {
+              allFeatures = true,
+              loadOutDirsFromCheck = true,
+              runBuildScripts = true,
+            },
+            checkOnSave = {
+              allFeatures = true,
+              command = "clippy",
+            },
+            procMacro = {
+              enable = true,
+              ignored = {
+                ["async-trait"] = { "async_trait" },
+                ["napi-derive"] = { "napi" },
+                ["async-recursion"] = { "async_recursion" },
+              },
+            },
+          },
+        },
       })
     end
 
