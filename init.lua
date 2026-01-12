@@ -100,7 +100,7 @@ if vim.g.neovide then
 
   vim.g.neovide_refresh_rate = 120
   vim.g.neovide_input_use_logo = 1
-  vim.g.neovide_scale_factor = 1
+  vim.g.neovide_scale_factor = 1.05
   vim.g.neovide_opacity = 0.9
   vim.g.transparency = 0.8
   -- vim.g.neovide_no_idle = true

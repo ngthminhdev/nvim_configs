@@ -414,6 +414,7 @@ return {
 
   {
     "stevearc/aerial.nvim",
+    lazy = false,
     opts = {},
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
@@ -507,26 +508,41 @@ return {
     event = "VeryLazy",
     config = true,
   },
+
   {
-    "rachartier/tiny-inline-diagnostic.nvim",
-    event = "VeryLazy", -- Or `LspAttach`
-    priority = 1000, -- needs to be loaded in first
+    "Maan2003/lsp_lines.nvim",
+    lazy = false,
     config = function()
-      require("tiny-inline-diagnostic").setup {
-        options = {
-          multilines = {
-            enabled = true,
-            always_show = true,
-          },
-          break_line = {
-            enabled = true,
-            after = 80,
-          },
-        },
+      require("lsp_lines").setup()
+      vim.diagnostic.config {
+        virtual_lines = { only_current_line = true },
+        virtual_text = false,
       }
-      vim.diagnostic.config { virtual_text = false } -- Only if needed in your configuration, if you already have native LSP diagnostics
     end,
   },
+
+  -- {
+  --   "rachartier/tiny-inline-diagnostic.nvim",
+  --   event = "VeryLazy", -- Or `LspAttach`
+  --   priority = 1000, -- needs to be loaded in first
+  --   config = function()
+  --     require("tiny-inline-diagnostic").setup {
+  --       options = {
+  --         use_icons_from_diagnostic = true,
+  --         multilines = {
+  --           enabled = true,
+  --           always_show = true,
+  --         },
+  --         break_line = {
+  --           enabled = true,
+  --           after = 80,
+  --         },
+  --       },
+  --     }
+  --     vim.diagnostic.config { virtual_text = false } -- Only if needed in your configuration, if you already have native LSP diagnostics
+  --   end,
+  -- },
+  --
   {
     "HiPhish/rainbow-delimiters.nvim",
     event = "VeryLazy",
@@ -615,7 +631,7 @@ return {
     config = function()
       require("project_nvim").setup {
         detection_methods = { "lsp", "pattern" },
-        patterns = { ".git", "package.json", "Makefile", "pyproject.toml" },
+        patterns = { ".git", "package.json", "Makefile", "pyproject.toml", "go.mod" },
       }
       require("telescope").load_extension "projects"
     end,

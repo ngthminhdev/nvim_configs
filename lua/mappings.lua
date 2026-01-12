@@ -4,7 +4,7 @@ local map = vim.keymap.set
 -- map("i", "<C-l>", "<C-o>l", { desc = "move right" })
 -- map("i", "<C-j>", "<C-o>j", { desc = "move down" })
 -- map("i", "<C-k>", "<C-o>k", { desc = "move up" })
--- 
+--
 map("i", "clg", [[console.log()<Left>]], { noremap = true, silent = true })
 map(
   "i",
@@ -26,22 +26,22 @@ map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
 map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
 
 map("n", "<leader>fm", function()
-    require("conform").format { async = true, lsp_fallback = true }
+  require("conform").format { async = true, lsp_fallback = true }
 end, { desc = "format files" })
 
 -- tabufline
 map("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
 
 map("n", "<C-l>", function()
-    require("nvchad.tabufline").next()
+  require("nvchad.tabufline").next()
 end, { desc = "buffer goto next" })
 
 map("n", "<C-h>", function()
-    require("nvchad.tabufline").prev()
+  require("nvchad.tabufline").prev()
 end, { desc = "buffer goto prev" })
 
 map("n", "<leader>x", function()
-    require("nvchad.tabufline").close_buffer()
+  require("nvchad.tabufline").close_buffer()
 end, { desc = "buffer close" })
 
 -- nvimtree
@@ -66,14 +66,14 @@ map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find
 map("n", "<leader>pj", "<cmd>Telescope projects<cr>", { desc = "recent projects" })
 
 map("n", "<leader>th", function()
-    require("nvchad.themes").open()
+  require("nvchad.themes").open()
 end, { desc = "telescope nvchad themes" })
 
 map(
-    "n",
-    "<leader>fa",
-    "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
-    { desc = "telescope find all files" }
+  "n",
+  "<leader>fa",
+  "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
+  { desc = "telescope find all files" }
 )
 
 map("n", "<leader>zm", "<cmd>ZenMode<CR>", { desc = "Toggle ZenMode" })
@@ -81,68 +81,68 @@ map("n", "<leader>zm", "<cmd>ZenMode<CR>", { desc = "Toggle ZenMode" })
 -- terminal
 map("t", "<C-q>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
-
 map({ "n", "t" }, "<F10>", function()
-    require("nvchad.term").runner {
-        id = "golangRunner",
-        pos = "float",
-        float_opts = {
-            width = 0.5,
-            height = 0.9,
-            row = 0.05,
-            col = 1,
-        },
-        clear_cmd = false,
+  require("nvchad.term").runner {
+    id = "codeRunner", -- Đặt tên chung để dùng cho nhiều ngôn ngữ
+    pos = "float",
+    float_opts = {
+      width = 0.5,
+      height = 0.9,
+      row = 0.05,
+      col = 1,
+    },
+    clear_cmd = false, -- Giữ lại lịch sử terminal
 
-        cmd = function()
-            local file = vim.fn.expand "%"
-            return "go run " .. file
-        end,
+    cmd = function()
+      local file = vim.fn.expand "%" -- Tên file hiện tại
+      local ft = vim.bo.ft -- Loại file (cpp, c, go, python...)
 
-        -- id = "cppRunner",
-        -- pos = "vsp",
-        -- size = 0.3,
-        -- clear_cmd = false,
-        --
-        -- cmd = function()
-        --   local file = vim.fn.expand "%"
-        --
-        --   local ft_cmds = {
-        --     cpp = "clear && g++ -o out " .. file .. " && ./out",
-        --   }
-        --
-        --   return ft_cmds[vim.bo.ft]
-        -- end,
-    }
-end, { desc = "CPP compile and run" })
+      -- Bảng chứa lệnh chạy cho từng ngôn ngữ
+      local ft_cmds = {
+        cpp = "g++ -o out " .. file .. " && ./out", -- Lệnh cho C++
+        c = "gcc -o out " .. file .. " && ./out", -- Lệnh cho C
+        go = "go run " .. file, -- Lệnh cho Go
+        rust = "cargo run " .. file, -- Lệnh cho Rust
+        rs = "cargo run " .. file, -- Lệnh cho Rust
+        python = "python3 " .. file, -- Thêm luôn Python cho tiện
+      }
+
+      -- Trả về lệnh tương ứng, hoặc báo lỗi nếu không tìm thấy
+      return ft_cmds[ft] or "echo 'Chưa cấu hình chạy cho ngôn ngữ này!'"
+    end,
+  }
+  vim.schedule(function()
+    vim.cmd "stopinsert"
+  end)
+end, { desc = "Compile and Run Code (Smart)" })
 
 map({ "n", "t" }, "<F12>", function()
-    require("nvchad.term").toggle {
-        pos = "float",
-        id = "hToggleTerm",
-        float_opts = {
-            width = 0.7,
-            height = 0.95,
-            row = 0.05,
-            col = 1,
-        },
-    }
+  require("nvchad.term").toggle {
+    pos = "float",
+    id = "hToggleTerm",
+    float_opts = {
+      width = 0.7,
+      height = 0.95,
+      row = 0.05,
+      col = 1,
+    },
+  }
 end, { desc = "terminal toggle floating term" })
 
 -- blankline
 map("n", "<leader>cc", function()
-    local config = { scope = {} }
-    config.scope.exclude = { language = {}, node_type = {} }
-    config.scope.include = { node_type = {} }
-    local node = require("ibl.scope").get(vim.api.nvim_get_current_buf(), config)
+  local config = { scope = {} }
+  config.scope.exclude = { language = {}, node_type = {} }
+  config.scope.include = { node_type = {} }
+  local node = require("ibl.scope").get(vim.api.nvim_get_current_buf(), config)
 
-    if node then
-        local start_row, _, end_row, _ = node:range()
-        if start_row ~= end_row then
-            vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), { start_row + 1, 0 })
-            vim.api.nvim_feedkeys("_", "n", true)
-        end
+  if node then
+    local start_row, _, end_row, _ = node:range()
+    if start_row ~= end_row then
+      vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), { start_row + 1, 0 })
+      vim.api.nvim_feedkeys("_", "n", true)
     end
+  end
 end, { desc = "blankline jump to current context" })
 
 -- Thiết lập phím tắt cho nvim-dap
@@ -177,21 +177,21 @@ map("n", "<leader>ui", '<cmd>lua require"dapui".toggle()<CR>', { noremap = true,
 map("n", "<space>i", '<Cmd>lua require("dapui").eval()<CR>', { noremap = true, silent = true })
 
 local function watchExpression(expression)
-    require("dapui").elements.watches.add(expression)
+  require("dapui").elements.watches.add(expression)
 end
 
 vim.api.nvim_create_user_command("DapiUIAddToWatch", function(opts)
-    watchExpression(opts.args)
+  watchExpression(opts.args)
 end, { nargs = 1 })
 
 map("n", "<space>w", ":DapiUIAddToWatch ", { noremap = true })
 
 local function removeExpression(expression)
-    require("dapui").elements.watches.remove(expression)
+  require("dapui").elements.watches.remove(expression)
 end
 
 vim.api.nvim_create_user_command("DapiUIRemoveWatch", function(opts)
-    removeExpression(opts.args)
+  removeExpression(opts.args)
 end, { nargs = 1 })
 
 map("n", "<space>r", ":DapiUIRemoveWatch ", { noremap = true })
@@ -214,37 +214,37 @@ map("n", "<leader>ca", "<Cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 map("x", "<leader>ca", "<Cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
 
 map("n", "<leader>nl", function()
-    require("noice").cmd "last"
+  require("noice").cmd "last"
 end)
 
 map("n", "<leader>nh", function()
-    require("noice").cmd "history"
+  require("noice").cmd "history"
 end)
 
 map("n", "<leader>gb", "<Cmd>Gitsigns blame<CR>", opts)
 map("n", "<leader>gl", "<Cmd>Gitsigns blame_line<CR>", opts)
 
--- map("n", "<C-p>", "<cmd>AerialToggle<cr>", { desc = "Aerial Toggle" })
+map("n", "<C-p>", "<cmd>AerialToggle<cr>", { desc = "Aerial Toggle" })
 
-map("n", "<leader>rs", '<cmd>lua require("kulala").run()<CR>', { noremap = true, silent = true, desc = "Run request" })
-map("n", "<leader>rr", '<cmd>lua require("kulala").replay()<CR>',
-    { noremap = true, silent = true, desc = "Replay request" })
-map("n", "<leader>rh", '<cmd>lua require("kulala.ui").show_headers()<CR>',
-    { noremap = true, silent = true, desc = "Show headers" })
-map("n", "<leader>rb", '<cmd>lua require("kulala.ui").show_body()<CR>',
-    { noremap = true, silent = true, desc = "Show body" })
-map("n", "<leader>ra", '<cmd>lua require("kulala.ui").show_headers_body()<CR>',
-    { noremap = true, silent = true, desc = "Show headers & body" })
-map("n", "<leader>rv", '<cmd>lua require("kulala.ui").show_verbose()<CR>',
-    { noremap = true, silent = true, desc = "Show verbose" })
-map("n", "S", '<cmd>lua require("kulala.ui").show_stats()<CR>', { noremap = true, silent = true, desc = "Show stats" })
-map("n", "R", '<cmd>lua require("kulala.ui").show_report()<CR>', { noremap = true, silent = true, desc = "Show report" })
+-- map("n", "<leader>rs", '<cmd>lua require("kulala").run()<CR>', { noremap = true, silent = true, desc = "Run request" })
+-- map("n", "<leader>rr", '<cmd>lua require("kulala").replay()<CR>',
+--     { noremap = true, silent = true, desc = "Replay request" })
+-- map("n", "<leader>rh", '<cmd>lua require("kulala.ui").show_headers()<CR>',
+--     { noremap = true, silent = true, desc = "Show headers" })
+-- map("n", "<leader>rb", '<cmd>lua require("kulala.ui").show_body()<CR>',
+--     { noremap = true, silent = true, desc = "Show body" })
+-- map("n", "<leader>ra", '<cmd>lua require("kulala.ui").show_headers_body()<CR>',
+--     { noremap = true, silent = true, desc = "Show headers & body" })
+-- map("n", "<leader>rv", '<cmd>lua require("kulala.ui").show_verbose()<CR>',
+--     { noremap = true, silent = true, desc = "Show verbose" })
+-- map("n", "S", '<cmd>lua require("kulala.ui").show_stats()<CR>', { noremap = true, silent = true, desc = "Show stats" })
+-- map("n", "R", '<cmd>lua require("kulala.ui").show_report()<CR>', { noremap = true, silent = true, desc = "Show report" })
+--
 
-
-map('n', 'gD', '<CMD>Glance definitions<CR>')
-map('n', 'gR', '<CMD>Glance references<CR>')
-map('n', 'gY', '<CMD>Glance type_definitions<CR>')
-map('n', 'gM', '<CMD>Glance implementations<CR>')
+map("n", "gD", "<CMD>Glance definitions<CR>")
+map("n", "gR", "<CMD>Glance references<CR>")
+map("n", "gY", "<CMD>Glance type_definitions<CR>")
+map("n", "gM", "<CMD>Glance implementations<CR>")
 
 -- Move line up/down with Alt + Arrow
 vim.keymap.set("n", "<C-j>", ":m .+1<CR>==", { desc = "Move line down" })
@@ -254,28 +254,27 @@ vim.keymap.set("i", "<C-k>", "<Esc>:m .-2<CR>==gi", { desc = "Move line up" })
 vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
-map('i', '<C-j>', 'copilot#Accept("\\<CR>")', {
-    expr = true,
-    replace_keycodes = false
+map("i", "<C-j>", 'copilot#Accept("\\<CR>")', {
+  expr = true,
+  replace_keycodes = false,
 })
 
 map("n", "<leader>dr", function()
-  local dapui = require("dapui")
+  local dapui = require "dapui"
   dapui.float_element("repl", {
-    enter = true, 
+    enter = true,
     width = 100,
     height = 20,
   })
 end, { desc = "Open & focus DAP console (float)" })
 
 map("n", "<leader>dc", function()
-  local dapui = require("dapui")
+  local dapui = require "dapui"
   dapui.float_element("console", {
-    enter = true, 
+    enter = true,
     width = 100,
     height = 20,
   })
 end, { desc = "Open & focus DAP console (float)" })
 
 vim.g.copilot_no_tab_map = true
-

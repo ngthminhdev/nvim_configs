@@ -51,7 +51,7 @@ local options = {
     },
   },
 
-  extensions_list = { "themes", "terms" },
+  extensions_list = { "themes", "terms", "aerial", "projects" },
   extensions = {
     aerial = {
       col1_width = 4,
