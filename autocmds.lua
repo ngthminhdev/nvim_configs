@@ -27,19 +27,19 @@ autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
 })
 
 -- Highlight các dòng Flutter log trong buffer _FLUTTER_DEV_LOG_
-autocmd("BufEnter", {
-    pattern = "*_FLUTTER_DEV_LOG_*",
-    callback = function()
-        vim.cmd [[
-      syntax match FlutterInfo /Connecting to VM Service/
-      syntax match FlutterHotReload /Reloaded .* libraries/ containedin=ALL
-      syntax match FlutterRestarted /Restarted application/ containedin=ALL
-      syntax match FlutterError /[E\/].*/ containedin=ALL
-
-      highlight default link FlutterInfo Keyword
-      highlight default link FlutterHotReload Type
-      highlight default link FlutterRestarted String
-      highlight default link FlutterError ErrorMsg
-    ]]
-    end
-})
+-- autocmd("BufEnter", {
+--     pattern = "*_FLUTTER_DEV_LOG_*",
+--     callback = function()
+--         vim.cmd [[
+--       syntax match FlutterInfo /Connecting to VM Service/
+--       syntax match FlutterHotReload /Reloaded .* libraries/ containedin=ALL
+--       syntax match FlutterRestarted /Restarted application/ containedin=ALL
+--       syntax match FlutterError /[E\/].*/ containedin=ALL
+--
+--       highlight default link FlutterInfo Keyword
+--       highlight default link FlutterHotReload Type
+--       highlight default link FlutterRestarted String
+--       highlight default link FlutterError ErrorMsg
+--     ]]
+--     end
+-- })

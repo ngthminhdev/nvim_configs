@@ -5,20 +5,20 @@
 local M = {}
 
 M.base46 = {
-  theme = "bearded_solarized",
-  toggle_theme = { "bearded_solarized", "one_light" },
-  lsp_semantic_tokens = false,
-  transparency = false,
-  -- opacity = 0.9,
+  theme = "bearded-arc",
+  toggle_theme = { "bearded-arc", "one_light" },
+  lsp_semantic_tokens = true,
+  transparency = true,
+  opacity = 0.9,
 
   hl_override = {
     Comment = { italic = true },
     ["@comment"] = { italic = true },
+
+    NormalFloat = { bg = "#1f2430" },
+    FloatBorder = { fg = "#89b4fa", bg = "#1f2430" },
   },
 }
 
-if vim.g.neovide then
-  M.base46.transparency = false
-end
 
 return M

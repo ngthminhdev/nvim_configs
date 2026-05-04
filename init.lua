@@ -1,4 +1,12 @@
 vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
+local original_notify = vim.notify
+vim.notify = function(msg, level, opts)
+  if msg:match "deprecated" then
+    return
+  end
+  original_notify(msg, level, opts)
+end
+
 vim.g.mapleader = " "
 -- Fold settings
 vim.opt.foldmethod = "indent"
@@ -34,12 +42,18 @@ vim.cmd "syntax on"
 
 vim.g.flutter_tools_hot_reload_on_save = 1
 
-for i = 1, 9, 1 do
+for i = 1, 9 do
   vim.keymap.set("n", string.format("<D-%s>", i), function()
-    vim.api.nvim_set_current_buf(vim.t.bufs[i])
+    local bufs = vim.t.bufs
+    -- Kiểm tra xem danh sách buffer có tồn tại và phần tử thứ i có dữ liệu không
+    if bufs and bufs[i] then
+      vim.api.nvim_set_current_buf(bufs[i])
+    else
+      -- (Tùy chọn) In ra thông báo nhẹ nhàng thay vì báo lỗi đỏ chót
+      vim.notify("Không có buffer số " .. i, vim.log.levels.WARN)
+    end
   end)
 end
-
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
@@ -122,5 +136,6 @@ vim.filetype.add {
   extension = {
     ["http"] = "http",
     ["proto"] = "proto",
+    ["alloy"] = "hcl",
   },
 }

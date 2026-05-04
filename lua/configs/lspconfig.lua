@@ -199,6 +199,12 @@ function M.defaults()
       })
     end
 
+    if lsp == "dockerls" then
+        cfg.on_attach = function(client, bufnr)
+            client.server_capabilities.semanticTokensProvider = nil
+        end
+    end
+
     -- Đăng ký cấu hình server với core LSP
     vim.lsp.config(lsp, cfg)
   end

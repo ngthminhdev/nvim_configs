@@ -37,6 +37,8 @@ export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin"
 export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 export PATH="$JAVA_HOME/bin:$PATH"
 
+export PATH="/Users/qc-bright/fvm/bin:$PATH"
+
 export NEOVIDE_TABS=1
 
 # ----- Aliases -----

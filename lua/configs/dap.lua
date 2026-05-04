@@ -16,9 +16,10 @@
       "pwa-extensionHost",
       "node",
       "chrome",
-      "dart",
+      -- "dart" removed - handled by flutter-tools.nvim
     },
   }
+  -- Dart adapter is now handled by flutter-tools.nvim with proper FVM/Flutter SDK paths
 
   local js_based_languages = { "typescript", "javascript", "typescriptreact", "javascriptreact" }
 
@@ -32,14 +33,6 @@
     },
   }
 
-  dap.adapters.dart = {
-    type = "executable",
-    command = "node",
-    args = {
-      vim.fn.stdpath "data" .. "/mason/packages/dart-debug-adapter/extension/out/dist/debug.js",
-      "--observe",
-    },
-  }
   for _, language in ipairs(js_based_languages) do
     dap.configurations[language] = {
       {
@@ -87,23 +80,25 @@
     layouts = {
       {
         elements = {
-          -- { id = 'repl', size = 0.01 },
-          { id = "scopes", size = 0.6 },
-          { id = "watches", size = 0.2 },
-          { id = "breakpoints", size = 0.2 },
+          { id = "scopes", size = 0.5 },
+          { id = "watches", size = 0.25 },
+          { id = "breakpoints", size = 0.25 },
         },
         size = 40,
         position = "left",
       },
       {
-        elements = { "console" },
-        size = 0.2,
+        elements = {
+          { id = "repl", size = 0.5 },
+          { id = "stacks", size = 0.5 },
+        },
+        size = 0.25,
         position = "bottom",
       },
     },
     controls = {
       enabled = true,
-      element = "repl",
+      element = "console",
     },
     floating = {
       max_height = 20, -- These can be integers or a float between 0 and 1.
@@ -116,15 +111,6 @@
     },
   }
 
-  dap.listeners.after.event_initialized["dapui_config"] = function()
-    dapui.open()
-  end
-  dap.listeners.before.event_terminated["dapui_config"] = function()
-    dapui.close()
-  end
-  dap.listeners.before.event_exited["dapui_config"] = function()
-    dapui.close()
-  end
   vim.api.nvim_set_keymap(
     "n",
     "<leader>df",

@@ -277,74 +277,89 @@ return {
     lazy = false,
   },
 
-  -- {
-  --   "akinsho/flutter-tools.nvim",
-  --   lazy = false,
-  --   version = "8edcdabfe982c77482ebde2ba3f46f2adc677e64",
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     "mfussenegger/nvim-dap",
-  --     "stevearc/dressing.nvim",
-  --   },
-  --   config = function()
-  --     require("flutter-tools").setup {
-  --       fvm = true,
-  --       debugger = {
-  --         enabled = true,
-  --         run_via_dap = true,
-  --       },
-  --       lsp = {
-  --         color = { enabled = true },
-  --         settings = {
-  --           dart = {
-  --             completeFunctionCalls = true,
-  --           },
-  --         },
-  --       },
-  --       decorations = {
-  --         statusline = { device = true, app_version = true },
-  --       },
-  --       dev_log = {
-  --         enabled = true,
-  --         notify_errors = false,
-  --         open_cmd = "tabedit",
-  --       },
-  --     }
-  --
-  --     -- BẮT BUỘC: thêm DAP configuration cho Dart
-  --     local dap = require "dap"
-  --     dap.configurations.dart = {
-  --       {
-  --         type = "dart",
-  --         request = "launch",
-  --         name = "Launch Dart Program",
-  --         program = "${workspaceFolder}/lib/main.dart",
-  --         cwd = "${workspaceFolder}",
-  --       },
-  --     }
-  --   end,
-  -- },
+  {
+    "akinsho/flutter-tools.nvim",
+    ft = { "dart" },
+    cmd = {
+      "FlutterRun",
+      "FlutterQuit",
+      "FlutterRestart",
+      "FlutterDevices",
+      "FlutterEmulators",
+      "FlutterOutlineToggle",
+      "FlutterLogClear",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "mfussenegger/nvim-dap",
+      "stevearc/dressing.nvim",
+    },
+    config = function()
+      require("configs.flutter_tools").setup()
+    end,
+  },
 
   {
     "mtdl9/vim-log-highlighting",
-    ft = { "log" },
+    -- Thêm NvTerm_float vào danh sách để Lazy load plugin
+    ft = { "log", "NvTerm_float" },
     config = function()
-      -- Tự động ép file Flutter log nhận dạng kiểu log để highlight
-      vim.api.nvim_create_autocmd("BufEnter", {
-        pattern = "*_FLUTTER_DEV_LOG_*",
+      -- 1. Hàm dùng chung: Định nghĩa màu sắc custom cho Android/Flutter
+      local function apply_custom_highlights()
+        vim.cmd [[
+          " Highlight Debug (D/...) - Màu xám/Comment
+          syntax match LogcatDebug /D\/[^:]*:/ containedin=ALL
+          highlight link LogcatDebug Comment
+          
+          " Highlight Info (I/...) - Màu xanh lá/String
+          syntax match LogcatInfo /I\/[^:]*:/ containedin=ALL
+          highlight link LogcatInfo String
+          
+          " Highlight Warning (W/...) - Màu vàng/Cảnh báo
+          syntax match LogcatWarn /W\/[^:]*:/ containedin=ALL
+          highlight link LogcatWarn DiagnosticWarn
+          
+          " Highlight Error (E/...) - Màu đỏ/Lỗi
+          syntax match LogcatError /E\/[^:]*:/ containedin=ALL
+          highlight link LogcatError DiagnosticError
+
+          " Highlight Thời gian (09:00:14)
+          syntax match LogcatTime /\d\d:\d\d:\d\d/ containedin=ALL
+          highlight link LogcatTime Number
+        ]]
+      end
+
+      -- 2. Trường hợp 1: File log chuẩn (đuôi .log hoặc filetype=log)
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "log",
+        callback = apply_custom_highlights,
+      })
+
+      -- 3. Trường hợp 2: Terminal NvChad (NvTerm_float)
+      -- Ở đây ta set SYNTAX là log, nhưng giữ nguyên FILETYPE là NvTerm_float
+      -- để không làm hỏng chức năng của NvChad.
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "NvTerm_float",
         callback = function()
-          vim.bo.filetype = "log"
+          -- Kích hoạt syntax của plugin log-highlighting
+          vim.bo.syntax = "log"
+          -- Kích hoạt thêm custom highlight của mình
+          apply_custom_highlights()
         end,
       })
 
-      vim.api.nvim_create_autocmd("TermOpen", {
-        pattern = "term://*",
-        callback = function(args)
-          local bufname = vim.api.nvim_buf_get_name(args.buf)
-          if bufname:match "FLUTTER_DEV_LOG" or bufname:match "log" then
-            -- Set filetype để plugin highlight log hoạt động
-            vim.bo[args.buf].filetype = "log"
-          end
+      -- 4. User Command thủ công (Backup)
+      vim.api.nvim_create_user_command("LogMode", function()
+        vim.bo.syntax = "log"
+        apply_custom_highlights()
+        print "Log Highlight Enabled!"
+      end, {})
+
+      -- 5. Tự động nhận diện file .log từ đĩa
+      vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+        pattern = { "*.log", "*_FLUTTER_DEV_LOG_*" },
+        callback = function()
+          vim.bo.filetype = "log"
         end,
       })
     end,
@@ -353,6 +368,99 @@ return {
   {
     "nvim-neotest/nvim-nio",
     -- lazy = false,
+  },
+
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "marilari88/neotest-vitest",
+    },
+    keys = {
+      {
+        "<leader>tt",
+        function()
+          require("neotest").run.run()
+        end,
+        desc = "Neotest: Run nearest test",
+      },
+      {
+        "<leader>tf",
+        function()
+          require("neotest").run.run(vim.fn.expand "%")
+        end,
+        desc = "Neotest: Run current file",
+      },
+      {
+        "<leader>tp",
+        function()
+          require("neotest").run.run(vim.fn.getcwd())
+        end,
+        desc = "Neotest: Run all tests in project",
+      },
+      {
+        "<leader>tl",
+        function()
+          require("neotest").run.run_last()
+        end,
+        desc = "Neotest: Run last test",
+      },
+      {
+        "<leader>to",
+        function()
+          require("neotest").output.open { enter = true }
+        end,
+        desc = "Neotest: Open test output",
+      },
+      {
+        "<leader>ts",
+        function()
+          require("neotest").summary.toggle()
+        end,
+        desc = "Neotest: Toggle summary panel",
+      },
+      {
+        "<leader>tw",
+        function()
+          require("neotest").watch.toggle(vim.fn.expand "%")
+        end,
+        desc = "Neotest: Watch current file",
+      },
+      {
+        "<leader>tx",
+        function()
+          require("neotest").run.stop()
+        end,
+        desc = "Neotest: Stop running test",
+      },
+    },
+    config = function()
+      require("neotest").setup {
+        adapters = {
+          require "neotest-vitest",
+        },
+        output = {
+          enabled = true,
+          open_on_run = true,
+        },
+        output_panel = {
+          enabled = true,
+          open = "botright split | resize 15",
+        },
+        summary = {
+          enabled = true,
+          open = "botright vsplit | vertical resize 60",
+        },
+        status = {
+          enabled = true,
+          virtual_text = true,
+          signs = true,
+        },
+      }
+    end,
   },
   {
     "mtdl9/vim-log-highlighting",
@@ -366,7 +474,7 @@ return {
     end,
   },
   {
-    "ggandor/leap.nvim",
+    url = "https://codeberg.org/andyg/leap.nvim",
     config = function()
       require("leap").add_default_mappings()
     end,
@@ -408,7 +516,12 @@ return {
     },
     dependencies = {
       "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
+      {
+        "rcarriga/nvim-notify",
+        opts = {
+          background_colour = "#1e1e2e",
+        },
+      },
     },
   },
 
@@ -432,117 +545,122 @@ return {
   },
 
   {
-    "yetone/avante.nvim",
+    "olimorris/codecompanion.nvim",
     event = "VeryLazy",
-    version = false, -- Never set this value to "*"! Never!
-    opts = require "configs.avante",
-    build = "make",
+    version = "^19.0.0",
+    cmd = {
+      "CodeCompanion",
+      "CodeCompanionActions",
+      "CodeCompanionChat",
+      "CodeCompanionCLI",
+      "CodeCompanionCmd",
+    },
+    init = function()
+      vim.cmd [[cab cc CodeCompanion]]
+    end,
+    opts = require "configs.codecompanion",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "echasnovski/mini.pick", -- for file_selector provider mini.pick
-      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      -- "zbirenbaum/copilot.lua",
       {
         "MeanderingProgrammer/render-markdown.nvim",
         opts = {
-          file_types = { "markdown", "Avante" },
+          file_types = { "markdown", "codecompanion" },
         },
-        ft = { "markdown", "Avante" },
+        ft = { "markdown", "codecompanion" },
       },
     },
-  },
+    config = function(_, opts)
+      require("codecompanion").setup(opts)
 
-  {
-    "Isrothy/neominimap.nvim",
-    version = "v3.x.x",
-    -- lazy = false,
-    keys = {
-      -- Global Minimap Controls
-      { "<leader>nm", "<cmd>Neominimap Toggle<cr>", desc = "Toggle global minimap" },
-      { "<leader>no", "<cmd>Neominimap on<cr>", desc = "Enable global minimap" },
-      { "<leader>nc", "<cmd>Neominimap off<cr>", desc = "Disable global minimap" },
-      { "<leader>nr", "<cmd>Neominimap refresh<cr>", desc = "Refresh global minimap" },
-
-      -- Window-Specific Minimap Controls
-      { "<leader>nwt", "<cmd>Neominimap winToggle<cr>", desc = "Toggle minimap for current window" },
-      { "<leader>nwr", "<cmd>Neominimap winRefresh<cr>", desc = "Refresh minimap for current window" },
-      { "<leader>nwo", "<cmd>Neominimap winOn<cr>", desc = "Enable minimap for current window" },
-      { "<leader>nwc", "<cmd>Neominimap winOff<cr>", desc = "Disable minimap for current window" },
-
-      -- Tab-Specific Minimap Controls
-      { "<leader>ntt", "<cmd>Neominimap tabToggle<cr>", desc = "Toggle minimap for current tab" },
-      { "<leader>ntr", "<cmd>Neominimap tabRefresh<cr>", desc = "Refresh minimap for current tab" },
-      { "<leader>nto", "<cmd>Neominimap tabOn<cr>", desc = "Enable minimap for current tab" },
-      { "<leader>ntc", "<cmd>Neominimap tabOff<cr>", desc = "Disable minimap for current tab" },
-
-      -- Buffer-Specific Minimap Controls
-      { "<leader>nbt", "<cmd>Neominimap bufToggle<cr>", desc = "Toggle minimap for current buffer" },
-      { "<leader>nbr", "<cmd>Neominimap bufRefresh<cr>", desc = "Refresh minimap for current buffer" },
-      { "<leader>nbo", "<cmd>Neominimap bufOn<cr>", desc = "Enable minimap for current buffer" },
-      { "<leader>nbc", "<cmd>Neominimap bufOff<cr>", desc = "Disable minimap for current buffer" },
-
-      ---Focus Controls
-      { "<leader>nf", "<cmd>Neominimap Focus<cr>", desc = "Focus on minimap" },
-      { "<leader>nu", "<cmd>Neominimap Unfocus<cr>", desc = "Unfocus minimap" },
-      { "<leader>ns", "<cmd>Neominimap ToggleFocus<cr>", desc = "Switch focus on minimap" },
-    },
-    init = function()
-      -- The following options are recommended when layout == "float"
-      vim.opt.wrap = true
-      vim.opt.sidescrolloff = 36 -- Set a large value
-
-      --- Put your configuration here
-      ---@type Neominimap.UserConfig
-      vim.g.neominimap = {
-        auto_enable = false,
-      }
+      pcall(function()
+        require("telescope").load_extension "codecompanion"
+      end)
     end,
   },
+
   {
     "sontungexpt/stcursorword",
     event = "VeryLazy",
     config = true,
   },
 
+  -- {
+  --   "Maan2003/lsp_lines.nvim",
+  --   event = "LspAttach", -- Lazy load khi LSP attach
+  --   config = function()
+  --     -- Setup với error handling
+  --     local status_ok, lsp_lines = pcall(require, "lsp_lines")
+  --     if not status_ok then
+  --       vim.notify("Failed to load lsp_lines", vim.log.levels.ERROR)
+  --       return
+  --     end
+  --
+  --     lsp_lines.setup()
+  --
+  --     -- Config diagnostic với workaround cho Neovim 0.11.x
+  --     vim.diagnostic.config {
+  --       virtual_lines = {
+  --         only_current_line = true, -- Chỉ hiện dòng hiện tại để giảm lỗi
+  --         highlight_whole_line = false, -- Giảm tải rendering
+  --       },
+  --       virtual_text = false, -- Tắt virtual text để dùng lsp_lines
+  --       update_in_insert = false, -- Không update khi insert mode (giảm lỗi)
+  --       severity_sort = true,
+  --     }
+  --
+  --     -- Keymap để toggle lsp_lines khi cần
+  --     vim.keymap.set("n", "<leader>ll", function()
+  --       local current = vim.diagnostic.config().virtual_lines
+  --       vim.diagnostic.config {
+  --         virtual_lines = not current,
+  --       }
+  --     end, { desc = "Toggle LSP Lines" })
+  --
+  --     -- Workaround: tự động hide khi vào insert mode để tránh crash
+  --     vim.api.nvim_create_autocmd("InsertEnter", {
+  --       group = vim.api.nvim_create_augroup("LspLinesWorkaround", { clear = true }),
+  --       callback = function()
+  --         vim.diagnostic.config { virtual_lines = false }
+  --       end,
+  --     })
+  --
+  --     vim.api.nvim_create_autocmd("InsertLeave", {
+  --       group = vim.api.nvim_create_augroup("LspLinesWorkaround", { clear = false }),
+  --       callback = function()
+  --         -- Delay để buffer đã stable
+  --         vim.defer_fn(function()
+  --           pcall(function()
+  --             vim.diagnostic.config { virtual_lines = { only_current_line = true } }
+  --           end)
+  --         end, 100)
+  --       end,
+  --     })
+  --   end,
+  -- },
+
   {
-    "Maan2003/lsp_lines.nvim",
-    lazy = false,
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy", -- Or `LspAttach`
+    priority = 1000, -- needs to be loaded in first
     config = function()
-      require("lsp_lines").setup()
-      vim.diagnostic.config {
-        virtual_lines = { only_current_line = true },
-        virtual_text = false,
+      require("tiny-inline-diagnostic").setup {
+        options = {
+          use_icons_from_diagnostic = true,
+          multilines = {
+            enabled = true,
+            always_show = true,
+          },
+          break_line = {
+            enabled = true,
+            after = 80,
+          },
+        },
       }
+      vim.diagnostic.config { virtual_text = false } -- Only if needed in your configuration, if you already have native LSP diagnostics
     end,
   },
 
-  -- {
-  --   "rachartier/tiny-inline-diagnostic.nvim",
-  --   event = "VeryLazy", -- Or `LspAttach`
-  --   priority = 1000, -- needs to be loaded in first
-  --   config = function()
-  --     require("tiny-inline-diagnostic").setup {
-  --       options = {
-  --         use_icons_from_diagnostic = true,
-  --         multilines = {
-  --           enabled = true,
-  --           always_show = true,
-  --         },
-  --         break_line = {
-  --           enabled = true,
-  --           after = 80,
-  --         },
-  --       },
-  --     }
-  --     vim.diagnostic.config { virtual_text = false } -- Only if needed in your configuration, if you already have native LSP diagnostics
-  --   end,
-  -- },
-  --
   {
     "HiPhish/rainbow-delimiters.nvim",
     event = "VeryLazy",
@@ -639,6 +757,16 @@ return {
   {
     "dnlhc/glance.nvim",
     cmd = "Glance",
+    opts = {
+      border = {
+        enable = true,
+        top_char = "-",
+        bottom_char = "-",
+      },
+    },
+    config = function(_, opts)
+      require("glance").setup(opts)
+    end,
   },
   {
     "windwp/nvim-ts-autotag",

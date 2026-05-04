@@ -1,0 +1,185 @@
+// Zed keymap — mirrored from Neovim/NvChad config
+// Leader key = space (Zed vim mode default)
+// Verify unknown actions via: cmd-shift-p → "zed: open default keymap"
+[
+  // ══════════════════════════════════════════════════════════════════════════
+  // WORKSPACE  (global — fires regardless of focused element)
+  // ══════════════════════════════════════════════════════════════════════════
+  {
+    "context": "Workspace",
+    "bindings": {
+      // File tree          <C-f>  NvimTreeToggle
+      "ctrl-f": "project_panel::ToggleFocus",
+
+      // Terminal           <F12>  floating term toggle
+      "f12": "terminal_panel::ToggleFocus",
+
+      // DAP — these must be workspace-level so they fire inside the debugger UI
+      "f5": "debugger::Continue",    // <F5>  dap.continue()
+      "f6": "debugger::Restart",     // <F6>  dap.restart()
+      "f4": "debugger::Stop",        // <F4>  dap.terminate()
+
+      // Code runner        <F10>  compile & run (configure via .zed/tasks.json)
+      "f10": "task::Spawn"
+    }
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // EDITOR — NORMAL MODE
+  // ══════════════════════════════════════════════════════════════════════════
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      // ── Splits / pane navigation ────────────────────────────────────────
+      // <Bar> vsplit
+      "|": "pane::SplitRight",
+
+      // <leader>h/l/j/k  switch window
+      "space h": "workspace::ActivatePaneLeft",
+      "space l": "workspace::ActivatePaneRight",
+      "space j": "workspace::ActivatePaneDown",
+      "space k": "workspace::ActivatePaneUp",
+
+      // ── Buffer / tab navigation ─────────────────────────────────────────
+      // <C-l> / <C-h>  next/prev buffer
+      "ctrl-l": "pane::ActivateNextItem",
+      "ctrl-h": "pane::ActivatePrevItem",
+
+      // <leader>x  close buffer    <leader>b  new buffer
+      "space x": "pane::CloseActiveItem",
+      "space b": "workspace::NewFile",
+
+      // <leader>tn  tab next
+      "space t n": "pane::ActivateNextItem",
+
+      // ── File / Search (Telescope) ───────────────────────────────────────
+      // <leader>ff  find files
+      "space f f": "file_finder::Toggle",
+      // <leader>fa  find all files (hidden) — Zed uses same finder
+      "space f a": "file_finder::Toggle",
+      // <leader>fw  live grep
+      "space f w": "workspace::NewSearch",
+      // <leader>fb  buffers
+      "space f b": "tab_switcher::Toggle",
+      // <leader>fo  old files — no direct equivalent; reuse file finder
+      "space f o": "file_finder::Toggle",
+      // <leader>fc  fuzzy in current buffer
+      "space f c": "buffer_search::Deploy",
+      // <leader>pj  recent projects
+      "space p j": "projects::OpenRecent",
+
+      // ── LSP ─────────────────────────────────────────────────────────────
+      // gd / <leader>gr  go to definition
+      "g d": "editor::GoToDefinition",
+      "space g r": "editor::GoToDefinition",
+      // gD  Glance definitions (peek) — Zed opens inline peek
+      "g D": "editor::GoToDefinitionSplit",
+      // gr / gR  references
+      "g r": "editor::FindAllReferences",
+      "g R": "editor::FindAllReferences",
+      // gY  type definition
+      "g Y": "editor::GoToTypeDefinition",
+      // gM  implementations
+      "g M": "editor::GoToImplementation",
+
+      // <leader>ca  code action
+      "space c a": "editor::ToggleCodeActions",
+      // <leader>fm  format
+      "space f m": "editor::Format",
+      // <leader>fp / <C-p>  document symbols / outline (Aerial)
+      "space f p": "outline::Toggle",
+      "ctrl-p": "outline::Toggle",
+      // <leader>ds  diagnostics panel
+      "space d s": "diagnostics::Deploy",
+
+      // ── Git ──────────────────────────────────────────────────────────────
+      // <leader>gt  git status panel
+      "space g t": "git_panel::ToggleFocus",
+      // <leader>gb / <leader>gl  git blame
+      "space g b": "editor::ToggleGitBlame",
+      "space g l": "editor::ToggleGitBlame",
+      // <leader>cm  git commits — no direct panel; open git history
+      "space c m": "git::ShowCommitHistory",
+
+      // ── AI (CodeCompanion → Zed built-in Assistant) ──────────────────────
+      // <leader>ac  chat toggle
+      "space a c": "assistant::ToggleFocus",
+      // <leader>an  new chat
+      "space a n": "assistant::NewContext",
+      // <leader>ai  inline assist
+      "space a i": "assistant::InlineAssist",
+      // <leader>aa  action palette
+      "space a a": "assistant::ToggleFocus",
+
+      // ── Move lines ────────────────────────────────────────────────────────
+      // <C-j> / <C-k>  move line down / up
+      "ctrl-j": "editor::MoveLineDown",
+      "ctrl-k": "editor::MoveLineUp",
+
+      // ── Debug (DAP) ───────────────────────────────────────────────────────
+      // <C-b>  toggle breakpoint  (note: overrides vim page-up Ctrl-b)
+      "ctrl-b": "editor::ToggleBreakpoint",
+      // <leader>ui  DAP UI toggle
+      "space u i": "debugger::ToggleFocus",
+
+      // ── Tests (Neotest → Zed task runner) ────────────────────────────────
+      // These require configuring .zed/tasks.json — see notes below
+      "space t t": "task::Spawn",      // run nearest test
+      "space t f": "task::Rerun",      // run current file tests
+      "space t l": "task::Rerun",      // run last test
+
+      // ── Zen mode ─────────────────────────────────────────────────────────
+      // <leader>zm  ZenMode toggle
+      "space z m": "workspace::ToggleCenteredLayout",
+
+      // ── Hover ────────────────────────────────────────────────────────────
+      "K": "editor::Hover"
+    }
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // EDITOR — INSERT MODE
+  // ══════════════════════════════════════════════════════════════════════════
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      // <C-j> / <C-k>  move line down / up
+      // (Copilot accept is handled natively by Zed's AI completions → Tab)
+      "ctrl-j": "editor::MoveLineDown",
+      "ctrl-k": "editor::MoveLineUp"
+    }
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // EDITOR — VISUAL MODE
+  // ══════════════════════════════════════════════════════════════════════════
+  {
+    "context": "Editor && vim_mode == visual",
+    "bindings": {
+      // <leader>av  add selection to AI chat
+      "space a v": "assistant::QuoteSelection",
+      // <leader>ai  inline assist on selection
+      "space a i": "assistant::InlineAssist",
+      // <leader>aa  actions with selection
+      "space a a": "assistant::ToggleFocus",
+      // <leader>ca  code actions on range
+      "space c a": "editor::ToggleCodeActions",
+      // <C-j> / <C-k>  move selection down / up
+      "ctrl-j": "editor::MoveLineDown",
+      "ctrl-k": "editor::MoveLineUp"
+    }
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // TERMINAL
+  // ══════════════════════════════════════════════════════════════════════════
+  {
+    "context": "Terminal",
+    "bindings": {
+      // <C-q>  exit terminal mode → focus back to editor
+      "ctrl-q": "workspace::ActivatePreviousPane",
+      // <F12>  toggle terminal panel
+      "f12": "terminal_panel::ToggleFocus"
+    }
+  }
+]

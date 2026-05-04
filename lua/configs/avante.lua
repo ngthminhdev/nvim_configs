@@ -3,36 +3,35 @@ local function tokens(num)
 end
 
 local M = {
-  -- provider = "ollama",
-  -- provider = "gemini",
-  provider = "copilot",
+  provider = "ollama",
   providers = {
-    copilot = {
-      model = "claude-sonnet-4.5",
-      max_completion_tokens = tokens(16),
+    ollama = {
+      endpoint = "http://127.0.0.1:11434",
+      model = "gemma4:e4b",
+      is_env_set = function()
+        local ok, provider = pcall(require, "avante.providers.ollama")
+        return ok and provider.check_endpoint_alive()
+      end,
       stream = true,
-    }
+      extra_request_body = {
+        options = {
+          num_ctx = tokens(32),
+        },
+      },
+    },
+    -- copilot = {
+    --   model = "claude-sonnet-4.5",
+    --   max_completion_tokens = tokens(16),
+    --   stream = true,
+    -- },
   },
-
-  -- providers = {
-  --   ollama = {
-  --     endpoint = "http://127.0.0.1:11434",
-  --     model = "gpt-oss:20b", -- dùng `ollama ls` để xem models có sẵn
-  --     extra_request_body = {
-  --       options = {
-  --         num_ctx = tokens(32),
-  --       },
-  --     },
-  --     stream = true,
-  --   },
-  -- },
 
   -- vendors = {
   --   deepseek = {
   --     -- nếu vendor này thực sự dùng cùng endpoint/compat của ollama,
   --     -- nên kế thừa từ "ollama" thay vì "openai"
   --     __inherited_from = "ollama",
-  --     endpoint = "http://127.0.0.1:11434/v1",
+  --     endpoint = "http://127.0.0.1:11434",
   --     model = "deepseek-r1:14b",
   --     timeout = 30000,
   --     temperature = 0,

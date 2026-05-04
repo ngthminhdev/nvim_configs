@@ -21,7 +21,7 @@ map("n", "<leader>l", "<C-w>l", { desc = "switch window right" })
 map("n", "<leader>j", "<C-w>j", { desc = "switch window down" })
 map("n", "<leader>k", "<C-w>k", { desc = "switch window up" })
 
-map("n", "<A-Tab>", ":tabnext<CR>", { desc = "Tab next" })
+map("n", "<leader>tn", ":tabnext<CR>", { desc = "Tab next" })
 map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
 map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
 
@@ -78,6 +78,14 @@ map(
 
 map("n", "<leader>zm", "<cmd>ZenMode<CR>", { desc = "Toggle ZenMode" })
 
+map({ "n", "v" }, "<leader>aa", "<cmd>CodeCompanionActions<CR>", { desc = "CodeCompanion actions" })
+map("n", "<leader>ac", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion chat toggle" })
+map("n", "<leader>an", "<cmd>CodeCompanionChat<CR>", { desc = "CodeCompanion new chat" })
+map("v", "<leader>av", "<cmd>CodeCompanionChat Add<CR>", { desc = "CodeCompanion add selection" })
+map({ "n", "v" }, "<leader>ai", "<cmd>CodeCompanion<CR>", { desc = "CodeCompanion inline" })
+map("n", "<leader>am", "<cmd>CodeCompanionCmd<CR>", { desc = "CodeCompanion command" })
+map("n", "<leader>ar", "<cmd>CodeiompanionChat RefreshCache<CR>", { desc = "CodeCompanion refresh cache" })
+
 -- terminal
 map("t", "<C-q>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
@@ -87,8 +95,8 @@ map({ "n", "t" }, "<F10>", function()
     pos = "float",
     float_opts = {
       width = 0.5,
-      height = 0.9,
-      row = 0.05,
+      height = 0.5,
+      row = 0,
       col = 1,
     },
     clear_cmd = false, -- Giữ lại lịch sử terminal
@@ -176,30 +184,40 @@ map("n", "<leader>ui", '<cmd>lua require"dapui".toggle()<CR>', { noremap = true,
 
 map("n", "<space>i", '<Cmd>lua require("dapui").eval()<CR>', { noremap = true, silent = true })
 
-local function watchExpression(expression)
-  require("dapui").elements.watches.add(expression)
-end
+-- local function watchExpression(expression)
+--   require("dapui").elements.watches.add(expression)
+-- end
 
-vim.api.nvim_create_user_command("DapiUIAddToWatch", function(opts)
-  watchExpression(opts.args)
-end, { nargs = 1 })
+-- vim.api.nvim_create_user_command("DapiUIAddToWatch", function(opts)
+--   watchExpression(opts.args)
+-- end, { nargs = 1 })
 
-map("n", "<space>w", ":DapiUIAddToWatch ", { noremap = true })
+-- map("n", "<space>w", ":DapiUIAddToWatch ", { noremap = true })
 
-local function removeExpression(expression)
-  require("dapui").elements.watches.remove(expression)
-end
+-- local function removeExpression(expression)
+--   require("dapui").elements.watches.remove(expression)
+-- end
 
-vim.api.nvim_create_user_command("DapiUIRemoveWatch", function(opts)
-  removeExpression(opts.args)
-end, { nargs = 1 })
+-- vim.api.nvim_create_user_command("DapiUIRemoveWatch", function(opts)
+--   removeExpression(opts.args)
+-- end, { nargs = 1 })
 
-map("n", "<space>r", ":DapiUIRemoveWatch ", { noremap = true })
+-- map("n", "<space>r", ":DapiUIRemoveWatch ", { noremap = true })
 
--- map("n", "<space>fr", ":FlutterRun<CR>", { noremap = true, silent = true })
--- map("n", "<space>fd", ":FlutterDevices<CR>", { noremap = true, silent = true })
--- map("n", "<space>fe", ":FlutterEmulators<CR>", { noremap = true, silent = true })
--- map("n", "<space>fl", ":FlutterLogClear<CR>", { noremap = true, silent = true })
+map("n", "<leader>dc", function()
+  require("dapui").float_element("console")
+end, { desc = "DAP: Show console" })
+
+map("n", "<leader>dt", function()
+  require("dapui").float_element("stacks")
+end, { desc = "DAP: Show threads/stacks" })
+
+-- map("n", "<leader>ds", function()
+--   require("dapui").float_element("scopes")
+-- end, { desc = "DAP: Show variables/scopes" })
+
+map("n", "<space>fe", ":FlutterEmulators<CR>", { noremap = true, silent = true })
+map("n", "<space>fl", ":FlutterLogClear<CR>", { noremap = true, silent = true })
 -- Mở tab mới
 
 local opts = { noremap = true, silent = true }
@@ -242,6 +260,7 @@ map("n", "<C-p>", "<cmd>AerialToggle<cr>", { desc = "Aerial Toggle" })
 --
 
 map("n", "gD", "<CMD>Glance definitions<CR>")
+map("n", "gr", "<CMD>Glance references<CR>")
 map("n", "gR", "<CMD>Glance references<CR>")
 map("n", "gY", "<CMD>Glance type_definitions<CR>")
 map("n", "gM", "<CMD>Glance implementations<CR>")
